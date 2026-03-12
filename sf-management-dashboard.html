@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Management &amp; Attorney Dashboard | EOL Matter Plans</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
-<script>mermaid.initialize({startOnLoad:true,theme:'neutral',themeVariables:{background:'#fefefe',primaryColor:'#e8f4fd',primaryTextColor:'#1a1a2e',primaryBorderColor:'#aac4dd',lineColor:'#888',secondaryColor:'#fff8ee',tertiaryColor:'#f0faf2',edgeLabelBackground:'#ffffff',fontSize:'13px'}})</script>
+<script>mermaid.initialize({startOnLoad:false,theme:'neutral',themeVariables:{background:'#fefefe',primaryColor:'#e8f4fd',primaryTextColor:'#1a1a2e',primaryBorderColor:'#aac4dd',lineColor:'#888',secondaryColor:'#fff8ee',tertiaryColor:'#f0faf2',edgeLabelBackground:'#ffffff',fontSize:'13px'}})</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -671,7 +671,9 @@ flowchart TD
     wfBtn.style.cssText = tab === 'wf'
       ? 'padding:12px 24px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;margin-bottom:-2px;cursor:pointer;'
       : 'padding:12px 24px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;';
-    if (tab === 'wf') mermaid.run({nodes: document.querySelectorAll('#view-wf .mermaid')});
+    if (tab === 'wf' && !document.querySelector('#view-wf .mermaid svg')) {
+      mermaid.run({nodes: document.querySelectorAll('#view-wf .mermaid')});
+    }
   }
 
   function showWfTab(tab) {
@@ -683,7 +685,9 @@ flowchart TD
     document.getElementById('wf-tab-wc').style.cssText = tab === 'wc'
       ? 'padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;cursor:pointer;margin-bottom:-1px;'
       : 'padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;';
-    if (tab === 'wc') mermaid.run({nodes: document.querySelectorAll('#wf-wc .mermaid')});
+    if (tab === 'wc' && !document.querySelector('#wf-wc .mermaid svg')) {
+      mermaid.run({nodes: document.querySelectorAll('#wf-wc .mermaid')});
+    }
   }
 
   function setFilter(type, btn) {
