@@ -660,10 +660,10 @@ flowchart TD
   classDef risk fill:#fff0ee,color:#ba0517,stroke:#f5a68d,stroke-width:1.5px
   classDef done fill:#f0faf2,color:#2e844a,stroke:#9fd3a6,stroke-width:2px
 
-  INT["📞 Intaker Calls Client\nScreening & Qualification"]:::task
+  INT["📞 Intake Call\nIntaker Qualifies Client"]:::task
   FEE["📄 Fee Agreement Sent During Call"]:::auto
-  SIGN["✅ Client Signs Fee Agreement\n(On the Phone)"]:::done
-  OBC["📅 Onboarding Call Scheduled\nby Intaker"]:::task
+  SIGN["✅ Fee Agreement Signed On the Phone"]:::done
+  OBC["📅 Onboarding Appointment Booked\nScheduled on Intake Call"]:::task
   LIT["Case Created in Litify"]:::auto
 
   INT --> FEE --> SIGN --> OBC --> LIT
@@ -671,16 +671,16 @@ flowchart TD
   DOCS["📄 Doc Requests Auto-Generated\nPolice Report · Medical Records\nInsurance Policy · Client ID\n(Request date + retrieval date tracked)"]:::auto
   LIT -->|"Auto-triggered"| DOCS
 
-  ATTY["⚖️ Initial Attorney Review\n-- No Client Contact --\nDetermination + Attorney Note filed in Litify\nTarget: Day 2 from Intake"]:::checkpoint
+  CM["🗓 Onboarding Appointment\nCase Manager with Client\nTarget: Day 1"]:::task
+  LIT --> CM
+
+  ATTY["⚖️ Initial Attorney Review\n-- No Client Contact --\nDetermination + Attorney Note filed in Litify\nAfter Onboarding Appt"]:::checkpoint
   HOLD["🚩 Flag and Resolve Issues"]:::risk
-  LIT --> ATTY
+  CM --> ATTY
   ATTY -->|"Issues Found"| HOLD --> ATTY
 
-  CM["📞 Case Manager Client Call\nOnboarding Call\nTarget: Day 1"]:::task
-  ATTY -->|"Eyes Check Passed"| CM
-
-  ACONF["🗓 Paralegal Appointment with Client\nAfter CM Call\nTarget: Day 3"]:::checkpoint
-  CM --> ACONF
+  ACONF["📋 Paralegal Call with Client\nAfter Attorney Review\nTarget: Day 3"]:::checkpoint
+  ATTY -->|"Attorney Note Complete"| ACONF
 
   IB["⚡ Injury Bridge Triggered\nGood to Go"]:::auto
   DONE["✅ Onboarding Complete\nTarget: 8.2 days"]:::done
@@ -698,8 +698,8 @@ flowchart TD
   classDef risk fill:#fff0ee,color:#ba0517,stroke:#f5a68d,stroke-width:1.5px
   classDef done fill:#f0faf2,color:#2e844a,stroke:#9fd3a6,stroke-width:2px
 
-  W1["🏗️ Intaker: Injury Reported\nDate of Injury Documented"]:::task
-  W2["Fee Agreement Sent & Signed\n(On the Phone)"]:::done
+  W1["📞 Intake Call\nIntaker: Injury Reported & Qualified"]:::task
+  W2["📄 Fee Agreement Sent & Signed\nOn the Phone"]:::done
   W3["WC Assessment: Eligibility & Compensability"]:::task
   W4["Case Created in Litify"]:::auto
 
@@ -708,16 +708,16 @@ flowchart TD
   WD["📄 Doc Requests Auto-Generated\nMedical Records · Employer Records\nIncident Report · FROI\n(Request date + retrieval date tracked)"]:::auto
   W4 -->|"Auto-triggered"| WD
 
-  WCHK["⚖️ Initial Attorney Review - Joe Leckenby\n-- No Client Contact --\nDetermination + Attorney Note filed in Litify\nTarget: Day 1 from Intake"]:::checkpoint
+  WCM["🗓 Onboarding Appointment\nCase Manager with Client\nTarget: Day 1"]:::task
+  W4 --> WCM
+
+  WCHK["⚖️ Initial Attorney Review - Joe Leckenby\n-- No Client Contact --\nDetermination + Attorney Note filed in Litify\nAfter Onboarding Appt"]:::checkpoint
   WHOLD["🚩 Flag and Resolve Issues"]:::risk
-  W4 --> WCHK
+  WCM --> WCHK
   WCHK -->|"Issues Found"| WHOLD --> WCHK
 
-  WCM["📞 Case Manager Client Call\nOnboarding Call\nTarget: Day 1"]:::task
-  WCHK -->|"Eyes Check Passed"| WCM
-
-  WCONF["🗓 Paralegal Appointment with Client\nAfter CM Call"]:::checkpoint
-  WCM --> WCONF
+  WCONF["📋 Paralegal Call with Client\nAfter Attorney Review"]:::checkpoint
+  WCHK -->|"Attorney Note Complete"| WCONF
 
   WMED["🏥 Medical Treatment Tracking Initiated"]:::task
   WBILLS["💊 Medical Bills Collection Started"]:::auto
