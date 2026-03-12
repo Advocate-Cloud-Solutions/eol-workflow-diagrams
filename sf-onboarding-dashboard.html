@@ -570,21 +570,21 @@ flowchart TD
   DOCS["📄 Doc Requests Auto-Generated\nPolice Report · Medical Records\nInsurance Policy · Client ID\n(Request date + retrieval date tracked)"]:::auto
   LIT -->|"Auto-triggered"| DOCS
 
-  ATTY["⚖️ Initial Attorney Review\n— No Client Contact —\n'Keeping this case, here's what we need'\nTarget: Day 2 from Intake"]:::checkpoint
-  HOLD["🚩 Flag & Resolve Issues"]:::risk
+  ATTY["⚖️ Initial Attorney Review\n-- No Client Contact --\nKeeping this case, here is what we need\nTarget: Day 2 from Intake"]:::checkpoint
+  HOLD["🚩 Flag and Resolve Issues"]:::risk
   LIT --> ATTY
   ATTY -->|"Issues Found"| HOLD --> ATTY
 
-  CM["📞 Case Manager → Client Call\n(Onboarding Call)\nTarget: Day 1"]:::task
-  ATTY -->|"✓ Eyes Check Passed"| CM
+  CM["📞 Case Manager Client Call\nOnboarding Call\nTarget: Day 1"]:::task
+  ATTY -->|"Eyes Check Passed"| CM
 
-  ACONF["🗓 Attorney Conference WITH Client\n(After CM Call)\nTarget: Day 3"]:::checkpoint
+  ACONF["🗓 Attorney Conference WITH Client\nAfter CM Call\nTarget: Day 3"]:::checkpoint
   CM --> ACONF
 
-  IB["⚡ Injury Bridge Triggered\n'Good to Go'"]:::auto
+  IB["⚡ Injury Bridge Triggered\nGood to Go"]:::auto
   DONE["✅ Onboarding Complete\nTarget: 8.2 days"]:::done
 
-  ACONF -->|"✓ Good to Go"| IB --> DONE
+  ACONF -->|"Good to Go"| IB --> DONE
   </div>
 </div>
 
