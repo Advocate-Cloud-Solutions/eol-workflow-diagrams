@@ -313,7 +313,7 @@
       <div class="timeline-delta delta-over">▲ 0.8</div>
     </div>
     <div class="timeline-row">
-      <div class="timeline-label">Intake → Attorney Conference</div>
+      <div class="timeline-label">Intake → Paralegal Appointment</div>
       <div class="timeline-bar-wrap">
         <div class="timeline-track">
           <div class="timeline-fill" style="width:82%; background:var(--sf-warning)">4.1d</div>
@@ -671,7 +671,7 @@ flowchart TD
   DOCS["📄 Doc Requests Auto-Generated\nPolice Report · Medical Records\nInsurance Policy · Client ID\n(Request date + retrieval date tracked)"]:::auto
   LIT -->|"Auto-triggered"| DOCS
 
-  ATTY["⚖️ Initial Attorney Review\n-- No Client Contact --\nKeeping this case, here is what we need\nTarget: Day 2 from Intake"]:::checkpoint
+  ATTY["⚖️ Initial Attorney Review\n-- No Client Contact --\nDetermination + Attorney Note filed in Litify\nTarget: Day 2 from Intake"]:::checkpoint
   HOLD["🚩 Flag and Resolve Issues"]:::risk
   LIT --> ATTY
   ATTY -->|"Issues Found"| HOLD --> ATTY
@@ -679,7 +679,7 @@ flowchart TD
   CM["📞 Case Manager Client Call\nOnboarding Call\nTarget: Day 1"]:::task
   ATTY -->|"Eyes Check Passed"| CM
 
-  ACONF["🗓 Attorney Conference WITH Client\nAfter CM Call\nTarget: Day 3"]:::checkpoint
+  ACONF["🗓 Paralegal Appointment with Client\nAfter CM Call\nTarget: Day 3"]:::checkpoint
   CM --> ACONF
 
   IB["⚡ Injury Bridge Triggered\nGood to Go"]:::auto
@@ -708,7 +708,7 @@ flowchart TD
   WD["📄 Doc Requests Auto-Generated\nMedical Records · Employer Records\nIncident Report · FROI\n(Request date + retrieval date tracked)"]:::auto
   W4 -->|"Auto-triggered"| WD
 
-  WCHK["⚖️ Initial Attorney Review - Joe Leckenby\n-- No Client Contact --\nKeeping this case, here is what we need\nTarget: Day 1 from Intake"]:::checkpoint
+  WCHK["⚖️ Initial Attorney Review - Joe Leckenby\n-- No Client Contact --\nDetermination + Attorney Note filed in Litify\nTarget: Day 1 from Intake"]:::checkpoint
   WHOLD["🚩 Flag and Resolve Issues"]:::risk
   W4 --> WCHK
   WCHK -->|"Issues Found"| WHOLD --> WCHK
@@ -716,7 +716,7 @@ flowchart TD
   WCM["📞 Case Manager Client Call\nOnboarding Call\nTarget: Day 1"]:::task
   WCHK -->|"Eyes Check Passed"| WCM
 
-  WCONF["🗓 Attorney Conference WITH Client\nAfter CM Call - Joe Leckenby"]:::checkpoint
+  WCONF["🗓 Paralegal Appointment with Client\nAfter CM Call"]:::checkpoint
   WCM --> WCONF
 
   WMED["🏥 Medical Treatment Tracking Initiated"]:::task
