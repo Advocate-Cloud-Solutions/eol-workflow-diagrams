@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding Team Dashboard | EOL Matter Plans</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sf-blue: #0176d3;
+    --sf-dark: #032d60;
+    --sf-mid: #0b5cab;
+    --sf-light: #d8edff;
+    --sf-success: #2e844a;
+    --sf-success-bg: #eef7f0;
+    --sf-warning: #dd7a01;
+    --sf-warning-bg: #fef3e2;
+    --sf-error: #ba0517;
+    --sf-error-bg: #fef1ee;
+    --sf-neutral: #3e3e3c;
+    --sf-border: #dddbda;
+    --sf-bg: #f3f3f3;
+    --sf-white: #ffffff;
+    --sf-text: #181818;
+    --sf-text2: #3e3e3c;
+    --sf-text3: #706e6b;
+    --sf-shadow: 0 2px 4px rgba(0,0,0,0.12);
+    --sf-shadow-lg: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  body { font-family: 'Salesforce Sans', system-ui, -apple-system, sans-serif; background: var(--sf-bg); color: var(--sf-text); font-size: 14px; }
+
+  /* NAV */
+  .sf-nav { background: var(--sf-dark); height: 52px; display: flex; align-items: center; padding: 0 16px; gap: 12px; position: sticky; top: 0; z-index: 100; }
+  .sf-nav-logo { display: flex; align-items: center; gap: 8px; color: white; font-weight: 700; font-size: 15px; text-decoration: none; }
+  .sf-nav-logo svg { width: 24px; height: 24px; }
+  .sf-nav-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.2); margin: 0 4px; }
+  .sf-nav-app { color: rgba(255,255,255,0.85); font-size: 13px; }
+  .sf-nav-right { margin-left: auto; display: flex; gap: 16px; align-items: center; }
+  .sf-nav-btn { background: var(--sf-blue); color: white; border: none; border-radius: 4px; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .sf-nav-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--sf-mid); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 700; }
+
+  /* HEADER */
+  .page-header { background: var(--sf-white); border-bottom: 1px solid var(--sf-border); padding: 16px 24px; display: flex; align-items: center; gap: 16px; }
+  .page-header-icon { width: 36px; height: 36px; background: #f3e0fc; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .page-header-info h1 { font-size: 20px; font-weight: 700; color: var(--sf-dark); }
+  .page-header-info p { font-size: 12px; color: var(--sf-text3); margin-top: 2px; }
+  .page-header-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .btn-primary { background: var(--sf-blue); color: white; border: none; border-radius: 4px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+  .btn-secondary { background: white; color: var(--sf-blue); border: 1px solid var(--sf-blue); border-radius: 4px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .refresh-time { font-size: 11px; color: var(--sf-text3); }
+
+  /* BODY */
+  .page-body { padding: 20px 24px; max-width: 1400px; }
+
+  /* ALERT BANNER */
+  .alert-banner { background: #fef1ee; border: 1px solid #f5a68d; border-radius: 4px; padding: 10px 16px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .alert-banner-icon { font-size: 16px; }
+  .alert-banner-text { font-size: 13px; color: var(--sf-error); font-weight: 600; }
+  .alert-banner-sub { font-size: 12px; color: var(--sf-text2); margin-left: 4px; font-weight: 400; }
+
+  /* GRID */
+  .grid { display: grid; gap: 16px; }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-2-1 { grid-template-columns: 2fr 1fr; }
+
+  /* METRIC TILE */
+  .metric-tile { background: var(--sf-white); border: 1px solid var(--sf-border); border-radius: 4px; padding: 16px; box-shadow: var(--sf-shadow); }
+  .metric-tile .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--sf-text3); margin-bottom: 8px; }
+  .metric-tile .value { font-size: 32px; font-weight: 700; color: var(--sf-dark); line-height: 1; }
+  .metric-tile .sub { font-size: 12px; color: var(--sf-text3); margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+  .metric-tile .trend-up { color: var(--sf-success); font-weight: 600; }
+  .metric-tile .trend-down { color: var(--sf-error); font-weight: 600; }
+  .metric-tile.alert { border-left: 4px solid var(--sf-error); }
+  .metric-tile.alert .value { color: var(--sf-error); }
+  .metric-tile.warning { border-left: 4px solid var(--sf-warning); }
+  .metric-tile.warning .value { color: var(--sf-warning); }
+  .metric-tile.success { border-left: 4px solid var(--sf-success); }
+  .metric-tile.success .value { color: var(--sf-success); }
+
+  /* SECTION HEADER */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; margin-top: 24px; }
+  .section-title { font-size: 14px; font-weight: 700; color: var(--sf-dark); }
+  .section-link { font-size: 12px; color: var(--sf-blue); cursor: pointer; text-decoration: none; }
+
+  /* CARD */
+  .card { background: var(--sf-white); border: 1px solid var(--sf-border); border-radius: 4px; box-shadow: var(--sf-shadow); overflow: hidden; }
+  .card-header { padding: 12px 16px; border-bottom: 1px solid var(--sf-border); display: flex; align-items: center; justify-content: space-between; background: #fafaf9; }
+  .card-header h3 { font-size: 13px; font-weight: 700; color: var(--sf-dark); }
+  .card-body { padding: 0; }
+
+  /* TABLE */
+  .sf-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .sf-table th { background: #fafaf9; border-bottom: 1px solid var(--sf-border); padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--sf-text3); white-space: nowrap; }
+  .sf-table td { padding: 10px 12px; border-bottom: 1px solid #f3f2f2; color: var(--sf-text); vertical-align: middle; }
+  .sf-table tr:last-child td { border-bottom: none; }
+  .sf-table tr:hover td { background: #f3f2f2; }
+  .sf-table .link { color: var(--sf-blue); cursor: pointer; font-weight: 500; }
+  .sf-table .link:hover { text-decoration: underline; }
+
+  /* BADGES */
+  .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .badge-error { background: var(--sf-error-bg); color: var(--sf-error); border: 1px solid #f5a68d; }
+  .badge-warning { background: var(--sf-warning-bg); color: var(--sf-warning); border: 1px solid #f5c771; }
+  .badge-success { background: var(--sf-success-bg); color: var(--sf-success); border: 1px solid #9fd3a6; }
+  .badge-info { background: var(--sf-light); color: var(--sf-blue); border: 1px solid #9dcfff; }
+  .badge-neutral { background: #f3f2f2; color: var(--sf-text3); border: 1px solid var(--sf-border); }
+
+  /* PROGRESS BAR */
+  .progress-wrap { display: flex; align-items: center; gap: 8px; }
+  .progress-bar { flex: 1; height: 6px; background: #e5e5e5; border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; background: var(--sf-blue); }
+  .progress-fill.warn { background: var(--sf-warning); }
+  .progress-fill.danger { background: var(--sf-error); }
+  .progress-label { font-size: 11px; color: var(--sf-text3); width: 30px; text-align: right; }
+
+  /* DOC STATUS GRID */
+  .doc-row { display: flex; align-items: center; padding: 10px 16px; border-bottom: 1px solid #f3f2f2; gap: 12px; }
+  .doc-row:last-child { border-bottom: none; }
+  .doc-name { font-size: 13px; font-weight: 500; width: 160px; flex-shrink: 0; }
+  .doc-avg { font-size: 12px; color: var(--sf-text3); width: 80px; }
+  .doc-count { font-size: 12px; color: var(--sf-text3); width: 60px; }
+
+  /* MINI STAT */
+  .mini-stat { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #f3f2f2; }
+  .mini-stat:last-child { border-bottom: none; }
+  .mini-stat-label { font-size: 13px; color: var(--sf-text2); }
+  .mini-stat-value { font-size: 16px; font-weight: 700; color: var(--sf-dark); }
+
+  /* FILTER BAR */
+  .filter-bar { display: flex; gap: 8px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--sf-border); background: #fafaf9; }
+  .filter-chip { padding: 4px 12px; border-radius: 16px; border: 1px solid var(--sf-border); background: white; font-size: 12px; font-weight: 600; cursor: pointer; color: var(--sf-text2); transition: all 0.15s; }
+  .filter-chip.active { background: var(--sf-dark); color: white; border-color: var(--sf-dark); }
+  .filter-count { background: var(--sf-blue); color: white; border-radius: 10px; padding: 1px 6px; font-size: 10px; font-weight: 700; margin-left: 4px; }
+  .filter-count.red { background: var(--sf-error); }
+  .filter-count.yellow { background: var(--sf-warning); }
+
+  .spacer { flex: 1; }
+
+  /* RISK FLAG */
+  .risk-flag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; }
+  .risk-flag.high { color: var(--sf-error); }
+  .risk-flag.med { color: var(--sf-warning); }
+
+  /* TAB BAR */
+  .tab-bar { display: flex; border-bottom: 1px solid var(--sf-border); padding: 0 16px; background: var(--sf-white); }
+  .tab-item { padding: 10px 16px; font-size: 13px; font-weight: 600; color: var(--sf-text3); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tab-item.active { color: var(--sf-blue); border-bottom-color: var(--sf-blue); }
+
+  .mt-4 { margin-top: 4px; }
+  .mt-8 { margin-top: 8px; }
+
+  @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 700px) { .grid-4, .grid-3, .grid-2, .grid-2-1 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="sf-nav">
+  <a class="sf-nav-logo" href="#">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 3C6.7 3 4 5.7 4 9c0 1.4.5 2.7 1.3 3.7C4.5 13.3 4 14.5 4 16c0 2.8 2.2 5 5 5 .9 0 1.8-.3 2.5-.7.7.4 1.6.7 2.5.7 2.8 0 5-2.2 5-5 0-1.5-.6-2.9-1.6-3.9.4-.8.6-1.7.6-2.6 0-2.8-2-5.1-4.6-5.5C12.6 3.2 11.3 3 10 3z" fill="white"/>
+    </svg>
+    Salesforce
+  </a>
+  <div class="sf-nav-divider"></div>
+  <span class="sf-nav-app">EOL Matter Plans</span>
+  <div class="sf-nav-right">
+    <span class="refresh-time" style="color:rgba(255,255,255,0.6)">Last refreshed: Today, 9:14 AM</span>
+    <div class="sf-nav-avatar">JA</div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-icon">📋</div>
+  <div class="page-header-info">
+    <h1>Onboarding Team Dashboard</h1>
+    <p>PI Intake → Onboarding Pipeline · Work queue &amp; document tracking</p>
+  </div>
+  <div class="page-header-actions">
+    <span class="refresh-time">March 12, 2026</span>
+    <button class="btn-secondary">↺ Refresh</button>
+    <button class="btn-primary">+ New Case</button>
+  </div>
+</div>
+
+<!-- ALERT BANNER -->
+<div class="page-body">
+<div class="alert-banner">
+  <span class="alert-banner-icon">⚠️</span>
+  <span class="alert-banner-text">12 cases have not started treatment after 3+ days</span>
+  <span class="alert-banner-sub">— immediate follow-up required</span>
+  <span style="margin-left:auto; font-size:12px; color:var(--sf-error); cursor:pointer;">View All →</span>
+</div>
+
+<!-- KPI TILES -->
+<div class="grid grid-4">
+  <div class="metric-tile">
+    <div class="label">Total Active Cases</div>
+    <div class="value">247</div>
+    <div class="sub"><span class="trend-up">▲ 14</span> from last week</div>
+  </div>
+  <div class="metric-tile warning">
+    <div class="label">Signed · Not Onboarded</div>
+    <div class="value">34</div>
+    <div class="sub"><span class="trend-down">▲ 8</span> since yesterday</div>
+  </div>
+  <div class="metric-tile">
+    <div class="label">Onboarding In Progress</div>
+    <div class="value">89</div>
+    <div class="sub">Avg <strong>6.2 days</strong> in stage</div>
+  </div>
+  <div class="metric-tile success">
+    <div class="label">Completed This Week</div>
+    <div class="value">23</div>
+    <div class="sub"><span class="trend-up">▲ 5</span> vs prior week</div>
+  </div>
+</div>
+
+<!-- RISK TILES -->
+<div class="section-header">
+  <span class="section-title">⚠️ High-Priority Alerts</span>
+  <a class="section-link">View All Alerts</a>
+</div>
+<div class="grid grid-2">
+  <div class="metric-tile alert">
+    <div class="label">Not Treating After 3 Days</div>
+    <div class="value">12</div>
+    <div class="sub" style="color:var(--sf-error)">Clients with no medical appointment scheduled &gt;72 hrs post-onboarding</div>
+  </div>
+  <div class="metric-tile alert">
+    <div class="label">No Attorney Note on File</div>
+    <div class="value">8</div>
+    <div class="sub" style="color:var(--sf-error)">Cases missing initial attorney review checkpoint</div>
+  </div>
+</div>
+
+<!-- WORK QUEUE -->
+<div class="section-header">
+  <span class="section-title">Work Queue</span>
+  <a class="section-link">Export CSV</a>
+</div>
+<div class="card">
+  <div class="filter-bar">
+    <button class="filter-chip active" onclick="filterTable('all', this)">All Cases <span class="filter-count">123</span></button>
+    <button class="filter-chip" onclick="filterTable('not-onboarded', this)">Signed · Not Onboarded <span class="filter-count yellow">34</span></button>
+    <button class="filter-chip" onclick="filterTable('in-progress', this)">In Progress <span class="filter-count">89</span></button>
+    <button class="filter-chip" onclick="filterTable('no-treatment', this)">No Treatment <span class="filter-count red">12</span></button>
+    <button class="filter-chip" onclick="filterTable('no-atty-note', this)">No Atty Note <span class="filter-count red">8</span></button>
+    <span class="spacer"></span>
+    <input type="text" placeholder="🔍 Search cases..." style="padding:5px 10px; border:1px solid var(--sf-border); border-radius:4px; font-size:12px; outline:none; width:180px;">
+  </div>
+  <table class="sf-table" id="workQueue">
+    <thead>
+      <tr>
+        <th>Case #</th>
+        <th>Client</th>
+        <th>Date Signed</th>
+        <th>Status</th>
+        <th>Days in Stage</th>
+        <th>Atty Note</th>
+        <th>Treatment</th>
+        <th>Case Manager</th>
+        <th>Flags</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-status="not-onboarded">
+        <td><span class="link">PI-2026-0441</span></td>
+        <td>Marcus T.</td>
+        <td>Mar 10</td>
+        <td><span class="badge badge-warning">Signed · Not Onboarded</span></td>
+        <td>2</td>
+        <td><span class="badge badge-error">Missing</span></td>
+        <td><span class="badge badge-neutral">N/A</span></td>
+        <td>—</td>
+        <td><span class="risk-flag high">🚨 Priority</span></td>
+      </tr>
+      <tr data-status="no-treatment">
+        <td><span class="link">PI-2026-0438</span></td>
+        <td>Diane R.</td>
+        <td>Mar 8</td>
+        <td><span class="badge badge-info">Onboarding In Progress</span></td>
+        <td>4</td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-error">Not Started</span></td>
+        <td>L. Torres</td>
+        <td><span class="risk-flag high">🚨 No Treatment</span></td>
+      </tr>
+      <tr data-status="no-atty-note">
+        <td><span class="link">PI-2026-0435</span></td>
+        <td>Kevin M.</td>
+        <td>Mar 7</td>
+        <td><span class="badge badge-info">Onboarding In Progress</span></td>
+        <td>5</td>
+        <td><span class="badge badge-error">Missing</span></td>
+        <td><span class="badge badge-warning">Pending</span></td>
+        <td>R. Chen</td>
+        <td><span class="risk-flag high">🚨 No Atty Note</span></td>
+      </tr>
+      <tr data-status="in-progress">
+        <td><span class="link">PI-2026-0431</span></td>
+        <td>Sandra L.</td>
+        <td>Mar 6</td>
+        <td><span class="badge badge-info">Onboarding In Progress</span></td>
+        <td>6</td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-success">Scheduled</span></td>
+        <td>L. Torres</td>
+        <td>—</td>
+      </tr>
+      <tr data-status="in-progress">
+        <td><span class="link">PI-2026-0428</span></td>
+        <td>Anthony W.</td>
+        <td>Mar 5</td>
+        <td><span class="badge badge-info">Onboarding In Progress</span></td>
+        <td>7</td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-success">Attending</span></td>
+        <td>M. Johnson</td>
+        <td>—</td>
+      </tr>
+      <tr data-status="no-treatment">
+        <td><span class="link">PI-2026-0425</span></td>
+        <td>Patricia G.</td>
+        <td>Mar 4</td>
+        <td><span class="badge badge-info">Onboarding In Progress</span></td>
+        <td>8</td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-error">Not Started</span></td>
+        <td>R. Chen</td>
+        <td><span class="risk-flag high">🚨 No Treatment</span></td>
+      </tr>
+      <tr data-status="not-onboarded">
+        <td><span class="link">PI-2026-0422</span></td>
+        <td>James H.</td>
+        <td>Mar 9</td>
+        <td><span class="badge badge-warning">Signed · Not Onboarded</span></td>
+        <td>3</td>
+        <td><span class="badge badge-neutral">Pending</span></td>
+        <td><span class="badge badge-neutral">N/A</span></td>
+        <td>—</td>
+        <td><span class="risk-flag med">⚠️ Aging</span></td>
+      </tr>
+      <tr data-status="in-progress">
+        <td><span class="link">PI-2026-0419</span></td>
+        <td>Tanya B.</td>
+        <td>Mar 3</td>
+        <td><span class="badge badge-info">Onboarding In Progress</span></td>
+        <td>9</td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-success">Scheduled</span></td>
+        <td>L. Torres</td>
+        <td>—</td>
+      </tr>
+      <tr data-status="no-atty-note">
+        <td><span class="link">PI-2026-0416</span></td>
+        <td>Robert N.</td>
+        <td>Mar 2</td>
+        <td><span class="badge badge-info">Onboarding In Progress</span></td>
+        <td>10</td>
+        <td><span class="badge badge-error">Missing</span></td>
+        <td><span class="badge badge-warning">Pending</span></td>
+        <td>M. Johnson</td>
+        <td><span class="risk-flag high">🚨 No Atty Note</span></td>
+      </tr>
+      <tr data-status="in-progress">
+        <td><span class="link">PI-2026-0412</span></td>
+        <td>Lisa P.</td>
+        <td>Mar 1</td>
+        <td><span class="badge badge-info">Onboarding In Progress</span></td>
+        <td>11</td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-success">Attending</span></td>
+        <td>R. Chen</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- DOCUMENT COLLECTION -->
+<div class="section-header">
+  <span class="section-title">Document Collection Status</span>
+  <a class="section-link">View All Documents</a>
+</div>
+<div class="grid grid-2">
+  <div class="card">
+    <div class="card-header">
+      <h3>Avg Retrieval Time by Document Type</h3>
+      <span style="font-size:11px; color:var(--sf-text3)">Active cases</span>
+    </div>
+    <div class="card-body">
+      <div class="doc-row">
+        <div class="doc-name">Police Report</div>
+        <div class="progress-wrap" style="flex:1">
+          <div class="progress-bar"><div class="progress-fill warn" style="width:82%"></div></div>
+        </div>
+        <div class="doc-avg"><strong>8.2</strong> days</div>
+        <div class="doc-count" style="text-align:right"><span class="badge badge-warning">Slow</span></div>
+      </div>
+      <div class="doc-row">
+        <div class="doc-name">Medical Records</div>
+        <div class="progress-wrap" style="flex:1">
+          <div class="progress-bar"><div class="progress-fill danger" style="width:100%"></div></div>
+        </div>
+        <div class="doc-avg"><strong>14.6</strong> days</div>
+        <div class="doc-count" style="text-align:right"><span class="badge badge-error">Critical</span></div>
+      </div>
+      <div class="doc-row">
+        <div class="doc-name">Insurance Policy</div>
+        <div class="progress-wrap" style="flex:1">
+          <div class="progress-bar"><div class="progress-fill" style="width:31%"></div></div>
+        </div>
+        <div class="doc-avg"><strong>3.1</strong> days</div>
+        <div class="doc-count" style="text-align:right"><span class="badge badge-success">On Track</span></div>
+      </div>
+      <div class="doc-row">
+        <div class="doc-name">Client ID</div>
+        <div class="progress-wrap" style="flex:1">
+          <div class="progress-bar"><div class="progress-fill" style="width:14%"></div></div>
+        </div>
+        <div class="doc-avg"><strong>1.4</strong> days</div>
+        <div class="doc-count" style="text-align:right"><span class="badge badge-success">On Track</span></div>
+      </div>
+      <div class="doc-row">
+        <div class="doc-name">Retainer Agreement</div>
+        <div class="progress-wrap" style="flex:1">
+          <div class="progress-bar"><div class="progress-fill" style="width:8%"></div></div>
+        </div>
+        <div class="doc-avg"><strong>0.8</strong> days</div>
+        <div class="doc-count" style="text-align:right"><span class="badge badge-success">On Track</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3>Stage Completion Summary</h3>
+      <span style="font-size:11px; color:var(--sf-text3)">This week</span>
+    </div>
+    <div class="card-body">
+      <div class="mini-stat">
+        <span class="mini-stat-label">Avg Onboarding Duration</span>
+        <span class="mini-stat-value" style="color:var(--sf-blue)">9.4 days</span>
+      </div>
+      <div class="mini-stat">
+        <span class="mini-stat-label">Onboarding Start → Doc Requests Sent</span>
+        <span class="mini-stat-value">1.2 days</span>
+      </div>
+      <div class="mini-stat">
+        <span class="mini-stat-label">Onboarding Start → Attorney Review</span>
+        <span class="mini-stat-value">2.8 days</span>
+      </div>
+      <div class="mini-stat">
+        <span class="mini-stat-label">Onboarding Start → Doctor Appt Scheduled</span>
+        <span class="mini-stat-value" style="color:var(--sf-warning)">4.1 days</span>
+      </div>
+      <div class="mini-stat">
+        <span class="mini-stat-label">Onboarding Start → Completion</span>
+        <span class="mini-stat-value">9.4 days</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="height:32px"></div>
+</div>
+
+<script>
+  function filterTable(status, btn) {
+    document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#workQueue tbody tr').forEach(row => {
+      if (status === 'all') {
+        row.style.display = '';
+      } else {
+        row.style.display = row.dataset.status === status ? '' : 'none';
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Management &amp; Attorney Dashboard | EOL Matter Plans</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sf-blue: #0176d3;
+    --sf-dark: #032d60;
+    --sf-mid: #0b5cab;
+    --sf-light: #d8edff;
+    --sf-success: #2e844a;
+    --sf-success-bg: #eef7f0;
+    --sf-warning: #dd7a01;
+    --sf-warning-bg: #fef3e2;
+    --sf-error: #ba0517;
+    --sf-error-bg: #fef1ee;
+    --sf-neutral: #3e3e3c;
+    --sf-border: #dddbda;
+    --sf-bg: #f3f3f3;
+    --sf-white: #ffffff;
+    --sf-text: #181818;
+    --sf-text2: #3e3e3c;
+    --sf-text3: #706e6b;
+    --sf-shadow: 0 2px 4px rgba(0,0,0,0.12);
+  }
+
+  body { font-family: 'Salesforce Sans', system-ui, -apple-system, sans-serif; background: var(--sf-bg); color: var(--sf-text); font-size: 14px; }
+
+  .sf-nav { background: var(--sf-dark); height: 52px; display: flex; align-items: center; padding: 0 16px; gap: 12px; position: sticky; top: 0; z-index: 100; }
+  .sf-nav-logo { display: flex; align-items: center; gap: 8px; color: white; font-weight: 700; font-size: 15px; text-decoration: none; }
+  .sf-nav-logo svg { width: 24px; height: 24px; }
+  .sf-nav-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.2); margin: 0 4px; }
+  .sf-nav-app { color: rgba(255,255,255,0.85); font-size: 13px; }
+  .sf-nav-right { margin-left: auto; display: flex; gap: 16px; align-items: center; }
+  .sf-nav-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--sf-mid); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 700; }
+
+  .page-header { background: var(--sf-white); border-bottom: 1px solid var(--sf-border); padding: 16px 24px; display: flex; align-items: center; gap: 16px; }
+  .page-header-icon { width: 36px; height: 36px; background: #fce8cc; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .page-header-info h1 { font-size: 20px; font-weight: 700; color: var(--sf-dark); }
+  .page-header-info p { font-size: 12px; color: var(--sf-text3); margin-top: 2px; }
+  .page-header-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .btn-primary { background: var(--sf-blue); color: white; border: none; border-radius: 4px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .btn-secondary { background: white; color: var(--sf-blue); border: 1px solid var(--sf-blue); border-radius: 4px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .refresh-time { font-size: 11px; color: var(--sf-text3); }
+
+  .page-body { padding: 20px 24px; max-width: 1400px; }
+
+  .grid { display: grid; gap: 16px; }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-2-1 { grid-template-columns: 2fr 1fr; }
+
+  .metric-tile { background: var(--sf-white); border: 1px solid var(--sf-border); border-radius: 4px; padding: 16px; box-shadow: var(--sf-shadow); }
+  .metric-tile .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--sf-text3); margin-bottom: 8px; }
+  .metric-tile .value { font-size: 32px; font-weight: 700; color: var(--sf-dark); line-height: 1; }
+  .metric-tile .sub { font-size: 12px; color: var(--sf-text3); margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+  .metric-tile .trend-up { color: var(--sf-success); font-weight: 600; }
+  .metric-tile .trend-down { color: var(--sf-error); font-weight: 600; }
+  .metric-tile.alert { border-left: 4px solid var(--sf-error); }
+  .metric-tile.alert .value { color: var(--sf-error); }
+  .metric-tile.warning { border-left: 4px solid var(--sf-warning); }
+  .metric-tile.warning .value { color: var(--sf-warning); }
+  .metric-tile.success { border-left: 4px solid var(--sf-success); }
+  .metric-tile.success .value { color: var(--sf-success); }
+  .metric-tile.blue { border-left: 4px solid var(--sf-blue); }
+
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; margin-top: 24px; }
+  .section-title { font-size: 14px; font-weight: 700; color: var(--sf-dark); }
+  .section-link { font-size: 12px; color: var(--sf-blue); cursor: pointer; text-decoration: none; }
+
+  .card { background: var(--sf-white); border: 1px solid var(--sf-border); border-radius: 4px; box-shadow: var(--sf-shadow); overflow: hidden; }
+  .card-header { padding: 12px 16px; border-bottom: 1px solid var(--sf-border); display: flex; align-items: center; justify-content: space-between; background: #fafaf9; }
+  .card-header h3 { font-size: 13px; font-weight: 700; color: var(--sf-dark); }
+  .card-body { padding: 0; }
+
+  .sf-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .sf-table th { background: #fafaf9; border-bottom: 1px solid var(--sf-border); padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--sf-text3); white-space: nowrap; }
+  .sf-table td { padding: 10px 12px; border-bottom: 1px solid #f3f2f2; color: var(--sf-text); vertical-align: middle; }
+  .sf-table tr:last-child td { border-bottom: none; }
+  .sf-table tr:hover td { background: #f3f2f2; }
+  .sf-table .link { color: var(--sf-blue); cursor: pointer; font-weight: 500; }
+
+  .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .badge-error { background: var(--sf-error-bg); color: var(--sf-error); border: 1px solid #f5a68d; }
+  .badge-warning { background: var(--sf-warning-bg); color: var(--sf-warning); border: 1px solid #f5c771; }
+  .badge-success { background: var(--sf-success-bg); color: var(--sf-success); border: 1px solid #9fd3a6; }
+  .badge-info { background: var(--sf-light); color: var(--sf-blue); border: 1px solid #9dcfff; }
+  .badge-neutral { background: #f3f2f2; color: var(--sf-text3); border: 1px solid var(--sf-border); }
+
+  /* TIMELINE CHART */
+  .timeline-chart { padding: 20px 24px; }
+  .timeline-row { display: flex; align-items: center; margin-bottom: 18px; gap: 12px; }
+  .timeline-row:last-child { margin-bottom: 0; }
+  .timeline-label { font-size: 12px; color: var(--sf-text2); width: 220px; flex-shrink: 0; font-weight: 500; }
+  .timeline-bar-wrap { flex: 1; position: relative; }
+  .timeline-track { height: 28px; background: #f3f2f2; border-radius: 4px; overflow: hidden; position: relative; }
+  .timeline-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 10px; font-size: 12px; font-weight: 700; color: white; transition: width 0.6s ease; }
+  .timeline-target { position: absolute; top: 0; bottom: 0; width: 2px; background: rgba(0,0,0,0.15); }
+  .timeline-value { font-size: 13px; font-weight: 700; color: var(--sf-dark); width: 70px; text-align: right; flex-shrink: 0; }
+  .timeline-delta { font-size: 11px; width: 60px; text-align: right; flex-shrink: 0; font-weight: 600; }
+  .delta-over { color: var(--sf-error); }
+  .delta-ok { color: var(--sf-success); }
+
+  /* BOTTLENECK */
+  .bottleneck-item { padding: 14px 16px; border-bottom: 1px solid #f3f2f2; display: flex; align-items: center; gap: 12px; }
+  .bottleneck-item:last-child { border-bottom: none; }
+  .bottleneck-rank { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; flex-shrink: 0; }
+  .rank-1 { background: var(--sf-error); }
+  .rank-2 { background: var(--sf-warning); }
+  .rank-3 { background: #b0b0b0; }
+  .bottleneck-name { font-size: 13px; font-weight: 600; flex: 1; }
+  .bottleneck-sub { font-size: 11px; color: var(--sf-text3); margin-top: 2px; }
+  .bottleneck-val { font-size: 16px; font-weight: 700; color: var(--sf-error); }
+
+  /* MINI STAT */
+  .mini-stat { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #f3f2f2; }
+  .mini-stat:last-child { border-bottom: none; }
+  .mini-stat-label { font-size: 13px; color: var(--sf-text2); }
+  .mini-stat-value { font-size: 16px; font-weight: 700; color: var(--sf-dark); }
+
+  /* FILTER BAR */
+  .filter-bar { display: flex; gap: 8px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--sf-border); background: #fafaf9; }
+  .filter-chip { padding: 4px 12px; border-radius: 16px; border: 1px solid var(--sf-border); background: white; font-size: 12px; font-weight: 600; cursor: pointer; color: var(--sf-text2); }
+  .filter-chip.active { background: var(--sf-dark); color: white; border-color: var(--sf-dark); }
+
+  .risk-flag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; }
+  .risk-flag.high { color: var(--sf-error); }
+  .risk-flag.med { color: var(--sf-warning); }
+
+  /* TREND SPARKLINE */
+  .sparkline { display: flex; align-items: flex-end; gap: 3px; height: 32px; }
+  .spark-bar { width: 6px; border-radius: 2px 2px 0 0; background: var(--sf-blue); opacity: 0.7; }
+  .spark-bar.high { background: var(--sf-error); opacity: 1; }
+
+  /* ONBOARDING PIPELINE */
+  .pipeline-wrap { padding: 20px 24px; }
+  .pipeline { display: flex; gap: 0; align-items: stretch; }
+  .pipeline-stage { flex: 1; }
+  .pipeline-stage-inner { background: #f3f2f2; border: 1px solid var(--sf-border); border-right: none; padding: 14px 16px; height: 100%; }
+  .pipeline-stage:last-child .pipeline-stage-inner { border-right: 1px solid var(--sf-border); border-radius: 0 4px 4px 0; }
+  .pipeline-stage:first-child .pipeline-stage-inner { border-radius: 4px 0 0 4px; }
+  .pipeline-stage-inner.active { background: var(--sf-light); border-color: #9dcfff; }
+  .pipeline-stage-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sf-text3); margin-bottom: 6px; }
+  .pipeline-stage-count { font-size: 22px; font-weight: 700; color: var(--sf-dark); }
+  .pipeline-stage-sub { font-size: 10px; color: var(--sf-text3); margin-top: 4px; }
+  .pipeline-arrow { display: flex; align-items: center; padding: 0 4px; color: var(--sf-border); font-size: 18px; flex-shrink: 0; align-self: center; }
+
+  @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } .pipeline { flex-wrap: wrap; } }
+  @media (max-width: 700px) { .grid-4, .grid-3, .grid-2, .grid-2-1 { grid-template-columns: 1fr; } .timeline-label { width: 140px; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="sf-nav">
+  <a class="sf-nav-logo" href="#">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 3C6.7 3 4 5.7 4 9c0 1.4.5 2.7 1.3 3.7C4.5 13.3 4 14.5 4 16c0 2.8 2.2 5 5 5 .9 0 1.8-.3 2.5-.7.7.4 1.6.7 2.5.7 2.8 0 5-2.2 5-5 0-1.5-.6-2.9-1.6-3.9.4-.8.6-1.7.6-2.6 0-2.8-2-5.1-4.6-5.5C12.6 3.2 11.3 3 10 3z" fill="white"/>
+    </svg>
+    Salesforce
+  </a>
+  <div class="sf-nav-divider"></div>
+  <span class="sf-nav-app">EOL Matter Plans</span>
+  <div class="sf-nav-right">
+    <span style="color:rgba(255,255,255,0.6); font-size:11px">Last refreshed: Today, 9:14 AM</span>
+    <div class="sf-nav-avatar">EO</div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-icon">⚖️</div>
+  <div class="page-header-info">
+    <h1>Management &amp; Attorney Dashboard</h1>
+    <p>Operational bottlenecks · Timeline performance · Critical case oversight</p>
+  </div>
+  <div class="page-header-actions">
+    <span class="refresh-time">March 12, 2026</span>
+    <button class="btn-secondary">↺ Refresh</button>
+    <button class="btn-primary">Generate Report</button>
+  </div>
+</div>
+
+<div class="page-body">
+
+<!-- KPI TILES -->
+<div class="grid grid-4">
+  <div class="metric-tile blue">
+    <div class="label">Total Active Cases</div>
+    <div class="value">247</div>
+    <div class="sub"><span class="trend-up">▲ 14</span> vs prior week</div>
+  </div>
+  <div class="metric-tile alert">
+    <div class="label">Missing Attorney Note</div>
+    <div class="value">8</div>
+    <div class="sub" style="color:var(--sf-error)">Critical risk — action required</div>
+  </div>
+  <div class="metric-tile alert">
+    <div class="label">Not Treating (3+ Days)</div>
+    <div class="value">12</div>
+    <div class="sub" style="color:var(--sf-error)">High operational risk</div>
+  </div>
+  <div class="metric-tile warning">
+    <div class="label">Avg Onboarding Duration</div>
+    <div class="value">9.4<span style="font-size:16px; font-weight:400"> days</span></div>
+    <div class="sub"><span class="trend-down">▲ 1.2</span> days vs target</div>
+  </div>
+</div>
+
+<!-- PIPELINE -->
+<div class="section-header">
+  <span class="section-title">Case Pipeline</span>
+  <a class="section-link">View Detail</a>
+</div>
+<div class="card">
+  <div class="pipeline-wrap">
+    <div class="pipeline">
+      <div class="pipeline-stage">
+        <div class="pipeline-stage-inner">
+          <div class="pipeline-stage-title">Intake</div>
+          <div class="pipeline-stage-count">41</div>
+          <div class="pipeline-stage-sub">Awaiting assignment</div>
+        </div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="pipeline-stage-inner active">
+          <div class="pipeline-stage-title">Signed · Not Onboarded</div>
+          <div class="pipeline-stage-count" style="color:var(--sf-warning)">34</div>
+          <div class="pipeline-stage-sub">⚠️ Needs onboarding</div>
+        </div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="pipeline-stage-inner">
+          <div class="pipeline-stage-title">Onboarding In Progress</div>
+          <div class="pipeline-stage-count">89</div>
+          <div class="pipeline-stage-sub">Avg 6.2 days</div>
+        </div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="pipeline-stage-inner">
+          <div class="pipeline-stage-title">Onboarding Complete</div>
+          <div class="pipeline-stage-count">61</div>
+          <div class="pipeline-stage-sub">Awaiting treatment start</div>
+        </div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="pipeline-stage-inner active">
+          <div class="pipeline-stage-title">Active Treatment</div>
+          <div class="pipeline-stage-count" style="color:var(--sf-success)">22</div>
+          <div class="pipeline-stage-sub">Treating &amp; documenting</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INTAKE TIMELINE METRICS -->
+<div class="section-header">
+  <span class="section-title">Intake → Milestone Timeline (Avg Days)</span>
+  <a class="section-link">View Trend Analysis</a>
+</div>
+<div class="card">
+  <div class="card-header">
+    <h3>Time from Intake to Key Milestones</h3>
+    <span style="font-size:11px; color:var(--sf-text3)">Rolling 30 days · <span style="color:var(--sf-text3)">Target shown as ◆</span></span>
+  </div>
+  <div class="timeline-chart">
+    <div class="timeline-row">
+      <div class="timeline-label">Intake → Case Manager Call</div>
+      <div class="timeline-bar-wrap">
+        <div class="timeline-track">
+          <div class="timeline-fill" style="width:24%; background:var(--sf-success)">1.2d</div>
+          <div class="timeline-target" style="left:20%"></div>
+        </div>
+      </div>
+      <div class="timeline-value">1.2 days</div>
+      <div class="timeline-delta delta-ok">▼ 0.3</div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-label">Intake → Attorney Note</div>
+      <div class="timeline-bar-wrap">
+        <div class="timeline-track">
+          <div class="timeline-fill" style="width:56%; background:var(--sf-warning)">2.8d</div>
+          <div class="timeline-target" style="left:40%"></div>
+        </div>
+      </div>
+      <div class="timeline-value">2.8 days</div>
+      <div class="timeline-delta delta-over">▲ 0.8</div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-label">Intake → Attorney Conference</div>
+      <div class="timeline-bar-wrap">
+        <div class="timeline-track">
+          <div class="timeline-fill" style="width:82%; background:var(--sf-warning)">4.1d</div>
+          <div class="timeline-target" style="left:60%"></div>
+        </div>
+      </div>
+      <div class="timeline-value">4.1 days</div>
+      <div class="timeline-delta delta-over">▲ 1.1</div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-label">Intake → First Doctor Appointment</div>
+      <div class="timeline-bar-wrap">
+        <div class="timeline-track">
+          <div class="timeline-fill" style="width:100%; background:var(--sf-error)">5.3d</div>
+          <div class="timeline-target" style="left:60%"></div>
+        </div>
+      </div>
+      <div class="timeline-value">5.3 days</div>
+      <div class="timeline-delta delta-over">▲ 2.3</div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTLENECKS + STAGE DURATIONS -->
+<div class="grid grid-2">
+  <div>
+    <div class="section-header">
+      <span class="section-title">Top Bottlenecks</span>
+      <a class="section-link">See All</a>
+    </div>
+    <div class="card">
+      <div class="bottleneck-item">
+        <div class="bottleneck-rank rank-1">1</div>
+        <div>
+          <div class="bottleneck-name">Medical Records Retrieval</div>
+          <div class="bottleneck-sub">Avg 14.6 days — largest onboarding delay</div>
+        </div>
+        <div class="bottleneck-val">14.6d</div>
+      </div>
+      <div class="bottleneck-item">
+        <div class="bottleneck-rank rank-2">2</div>
+        <div>
+          <div class="bottleneck-name">First Doctor Appointment</div>
+          <div class="bottleneck-sub">Scheduling lag — ownership unclear</div>
+        </div>
+        <div class="bottleneck-val" style="color:var(--sf-warning)">5.3d</div>
+      </div>
+      <div class="bottleneck-item">
+        <div class="bottleneck-rank rank-3">3</div>
+        <div>
+          <div class="bottleneck-name">Police Report Retrieval</div>
+          <div class="bottleneck-sub">Avg 8.2 days — external dependency</div>
+        </div>
+        <div class="bottleneck-val" style="color:var(--sf-text3)">8.2d</div>
+      </div>
+      <div class="bottleneck-item">
+        <div class="bottleneck-rank" style="background:var(--sf-text3); width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:white; flex-shrink:0;">4</div>
+        <div>
+          <div class="bottleneck-name">Attorney Note Completion</div>
+          <div class="bottleneck-sub">8 cases currently missing note</div>
+        </div>
+        <div class="bottleneck-val" style="color:var(--sf-text3)">2.8d</div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="section-header">
+      <span class="section-title">Onboarding Stage Durations</span>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="mini-stat">
+          <span class="mini-stat-label">Onboarding Start → Doc Requests Sent</span>
+          <span class="mini-stat-value" style="color:var(--sf-success)">1.2 days</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-label">Onboarding Start → Attorney Review</span>
+          <span class="mini-stat-value" style="color:var(--sf-warning)">2.8 days</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-label">Onboarding Start → Doctor Appt Scheduled</span>
+          <span class="mini-stat-value" style="color:var(--sf-warning)">4.1 days</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-label">Onboarding Start → Onboarding Complete</span>
+          <span class="mini-stat-value" style="color:var(--sf-error)">9.4 days</span>
+        </div>
+        <div class="mini-stat" style="background:#fafaf9">
+          <span class="mini-stat-label" style="font-weight:700">Target Onboarding Duration</span>
+          <span class="mini-stat-value" style="color:var(--sf-success)">8.2 days</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CRITICAL CASES WORK QUEUE -->
+<div class="section-header">
+  <span class="section-title">Critical Cases — Attorney Review Required</span>
+  <a class="section-link">Export</a>
+</div>
+<div class="card">
+  <div class="filter-bar">
+    <button class="filter-chip active" onclick="setFilter('all', this)">All Critical <span style="background:var(--sf-error); color:white; border-radius:10px; padding:1px 6px; font-size:10px; font-weight:700; margin-left:4px;">20</span></button>
+    <button class="filter-chip" onclick="setFilter('no-note', this)">No Attorney Note <span style="background:var(--sf-error); color:white; border-radius:10px; padding:1px 6px; font-size:10px; font-weight:700; margin-left:4px;">8</span></button>
+    <button class="filter-chip" onclick="setFilter('no-treatment', this)">Not Treating <span style="background:var(--sf-error); color:white; border-radius:10px; padding:1px 6px; font-size:10px; font-weight:700; margin-left:4px;">12</span></button>
+    <span style="flex:1"></span>
+    <input type="text" placeholder="🔍 Search..." style="padding:5px 10px; border:1px solid var(--sf-border); border-radius:4px; font-size:12px; outline:none; width:180px;">
+  </div>
+  <table class="sf-table" id="criticalQueue">
+    <thead>
+      <tr>
+        <th>Case #</th>
+        <th>Client</th>
+        <th>Intake Date</th>
+        <th>Days Since Intake</th>
+        <th>Onboarding Status</th>
+        <th>Atty Note</th>
+        <th>Treatment Status</th>
+        <th>Assigned Atty</th>
+        <th>Risk</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-type="no-note">
+        <td><span class="link">PI-2026-0435</span></td>
+        <td>Kevin M.</td>
+        <td>Mar 7</td>
+        <td>5</td>
+        <td><span class="badge badge-info">In Progress</span></td>
+        <td><span class="badge badge-error">Missing</span></td>
+        <td><span class="badge badge-warning">Pending</span></td>
+        <td>J. Williams</td>
+        <td><span class="risk-flag high">🚨 Critical</span></td>
+        <td><a class="link" style="font-size:12px">Add Note</a></td>
+      </tr>
+      <tr data-type="no-treatment">
+        <td><span class="link">PI-2026-0438</span></td>
+        <td>Diane R.</td>
+        <td>Mar 8</td>
+        <td>4</td>
+        <td><span class="badge badge-info">In Progress</span></td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-error">Not Started</span></td>
+        <td>M. Ostroff</td>
+        <td><span class="risk-flag high">🚨 Critical</span></td>
+        <td><a class="link" style="font-size:12px">Escalate</a></td>
+      </tr>
+      <tr data-type="no-note">
+        <td><span class="link">PI-2026-0416</span></td>
+        <td>Robert N.</td>
+        <td>Mar 2</td>
+        <td>10</td>
+        <td><span class="badge badge-info">In Progress</span></td>
+        <td><span class="badge badge-error">Missing</span></td>
+        <td><span class="badge badge-warning">Pending</span></td>
+        <td>J. Williams</td>
+        <td><span class="risk-flag high">🚨 Critical</span></td>
+        <td><a class="link" style="font-size:12px">Add Note</a></td>
+      </tr>
+      <tr data-type="no-treatment">
+        <td><span class="link">PI-2026-0425</span></td>
+        <td>Patricia G.</td>
+        <td>Mar 4</td>
+        <td>8</td>
+        <td><span class="badge badge-info">In Progress</span></td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-error">Not Started</span></td>
+        <td>M. Ostroff</td>
+        <td><span class="risk-flag high">🚨 Critical</span></td>
+        <td><a class="link" style="font-size:12px">Escalate</a></td>
+      </tr>
+      <tr data-type="no-note">
+        <td><span class="link">PI-2026-0407</span></td>
+        <td>Chen L.</td>
+        <td>Feb 28</td>
+        <td>13</td>
+        <td><span class="badge badge-info">In Progress</span></td>
+        <td><span class="badge badge-error">Missing</span></td>
+        <td><span class="badge badge-success">Attending</span></td>
+        <td>S. Cohen</td>
+        <td><span class="risk-flag high">🚨 Critical</span></td>
+        <td><a class="link" style="font-size:12px">Add Note</a></td>
+      </tr>
+      <tr data-type="no-treatment">
+        <td><span class="link">PI-2026-0401</span></td>
+        <td>Marcus B.</td>
+        <td>Feb 25</td>
+        <td>15</td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-error">Not Started</span></td>
+        <td>M. Ostroff</td>
+        <td><span class="risk-flag high">🚨 Critical</span></td>
+        <td><a class="link" style="font-size:12px">Escalate</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- REPORTING SUMMARY -->
+<div class="section-header">
+  <span class="section-title">Analysis Reporting Summary</span>
+</div>
+<div class="grid grid-3">
+  <div class="metric-tile">
+    <div class="label">Avg Time: Intake → Case Mgr Call</div>
+    <div class="value" style="font-size:24px; color:var(--sf-success)">1.2 days</div>
+    <div class="sub">Target: 1.0 day <span class="trend-down" style="margin-left:4px">+0.2</span></div>
+  </div>
+  <div class="metric-tile">
+    <div class="label">Avg Time: Intake → Attorney Note</div>
+    <div class="value" style="font-size:24px; color:var(--sf-warning)">2.8 days</div>
+    <div class="sub">Target: 2.0 days <span class="trend-down" style="margin-left:4px">+0.8</span></div>
+  </div>
+  <div class="metric-tile">
+    <div class="label">Avg Time: Intake → Attorney Conf.</div>
+    <div class="value" style="font-size:24px; color:var(--sf-warning)">4.1 days</div>
+    <div class="sub">Target: 3.0 days <span class="trend-down" style="margin-left:4px">+1.1</span></div>
+  </div>
+  <div class="metric-tile">
+    <div class="label">Avg Time: Intake → First Doctor Appt</div>
+    <div class="value" style="font-size:24px; color:var(--sf-error)">5.3 days</div>
+    <div class="sub">Target: 3.0 days <span class="trend-down" style="margin-left:4px">+2.3</span></div>
+  </div>
+  <div class="metric-tile">
+    <div class="label">Cases Closed This Month</div>
+    <div class="value" style="font-size:24px; color:var(--sf-success)">38</div>
+    <div class="sub"><span class="trend-up">▲ 6</span> vs prior month</div>
+  </div>
+  <div class="metric-tile">
+    <div class="label">Onboarding Completion Rate</div>
+    <div class="value" style="font-size:24px; color:var(--sf-blue)">87%</div>
+    <div class="sub">Within 10-day target</div>
+  </div>
+</div>
+
+<div style="height:32px"></div>
+</div>
+
+<script>
+  function setFilter(type, btn) {
+    document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#criticalQueue tbody tr').forEach(row => {
+      if (type === 'all') {
+        row.style.display = '';
+      } else {
+        row.style.display = row.dataset.type === type ? '' : 'none';
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
