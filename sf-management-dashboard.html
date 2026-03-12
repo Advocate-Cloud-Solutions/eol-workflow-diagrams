@@ -421,7 +421,7 @@
   <button id="mdoc-tab-client" onclick="setMDocTab('client',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;margin-bottom:-2px;cursor:pointer;">Stage 1 · Client Retrieval</button>
   <button id="mdoc-tab-3p" onclick="setMDocTab('3p',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">Stage 2 · 3P / Insurance</button>
   <button id="mdoc-tab-med" onclick="setMDocTab('med',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">Stage 3 · Medical Records</button>
-  <button id="mdoc-tab-wc" onclick="setMDocTab('wc',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">WC · Employer / Bureau</button>
+  <button id="mdoc-tab-wc" onclick="setMDocTab('wc',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">WC · Client Retrieval</button>
 </div>
 
 <!-- Stage 1: Client Retrieval -->
@@ -464,15 +464,17 @@
   </table>
 </div>
 
-<!-- WC: Employer / Bureau -->
+<!-- WC: Client Retrieval -->
 <div id="mdoc-wc" class="card" style="padding:0 0 8px 0;display:none;">
   <table class="sf-table">
     <thead><tr><th>Document — 1 task per doc</th><th>Cases Pending</th><th>Avg Days</th><th>Intake → Received</th><th>Onboarding → Received</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td><strong>Employer / Work Comp Carrier Documents</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Employer/Work Comp Carrier Documents</span></td><td>21</td><td>6.8d</td><td>8.0d avg</td><td>6.8d avg</td><td><span class="badge badge-warning">Slow</span></td></tr>
+      <tr><td><strong>Govt Issued ID</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Govt issued ID</span></td><td>16</td><td>0.9d</td><td>2.1d avg</td><td>0.9d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
+      <tr><td><strong>Health Insurance Card</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Health Insurance Card</span></td><td>19</td><td>1.3d</td><td>2.5d avg</td><td>1.3d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
+      <tr><td><strong>Medical Records — Initial Provider</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Medical Records</span></td><td>31</td><td>12.4d</td><td>13.6d avg</td><td>12.4d avg</td><td><span class="badge badge-error">Critical</span></td></tr>
       <tr><td><strong>Paystubs / W2</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Paystubs/W2</span></td><td>18</td><td>3.4d</td><td>4.6d avg</td><td>3.4d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
-      <tr><td><strong>Bureau Documents</strong><br><span style="font-size:11px;color:var(--sf-text3)">Request Bur Docs</span></td><td>14</td><td>11.2d</td><td>12.4d avg</td><td>11.2d avg</td><td><span class="badge badge-error">Critical</span></td></tr>
-      <tr><td><strong>Initial Incident / Injury Report</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Medical Records (initial treating)</span></td><td>9</td><td>4.1d</td><td>5.3d avg</td><td>4.1d avg</td><td><span class="badge badge-warning">Watch</span></td></tr>
+      <tr><td><strong>Employer / Work Comp Carrier Documents</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Employer/Work Comp Carrier Documents</span></td><td>21</td><td>6.8d</td><td>8.0d avg</td><td>6.8d avg</td><td><span class="badge badge-warning">Slow</span></td></tr>
+      <tr><td><strong>Bureau Documents</strong><br><span style="font-size:11px;color:var(--sf-text3)">Request Bur Docs — external, longest lead time</span></td><td>14</td><td>11.2d</td><td>12.4d avg</td><td>11.2d avg</td><td><span class="badge badge-error">Critical</span></td></tr>
     </tbody>
   </table>
 </div>
