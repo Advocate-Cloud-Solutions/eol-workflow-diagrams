@@ -411,6 +411,83 @@
   </div>
 </div>
 
+<!-- DOCUMENT RETRIEVAL PIPELINE -->
+<div class="section-header">
+  <span class="section-title">Document Retrieval Pipeline</span>
+  <span style="font-size:11px;color:var(--sf-text3)">Bottleneck analysis by stage · Auto-tracked in Litify</span>
+</div>
+
+<div style="display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid #dddbda;">
+  <button id="mdoc-tab-client" onclick="setMDocTab('client',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;margin-bottom:-2px;cursor:pointer;">Stage 1 · Client Retrieval</button>
+  <button id="mdoc-tab-3p" onclick="setMDocTab('3p',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">Stage 2 · 3P / Insurance</button>
+  <button id="mdoc-tab-med" onclick="setMDocTab('med',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">Stage 3 · Medical Records</button>
+  <button id="mdoc-tab-wc" onclick="setMDocTab('wc',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">WC · Employer / Bureau</button>
+</div>
+
+<!-- Stage 1: Client Retrieval -->
+<div id="mdoc-client" class="card" style="padding:0 0 8px 0;">
+  <table class="sf-table">
+    <thead><tr><th>Document — 1 task per doc</th><th>Cases Pending</th><th>Avg Days</th><th>Intake → Received</th><th>Onboarding → Received</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Health Insurance Card</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Health Insurance Card</span></td><td>47</td><td>1.4d</td><td>2.6d avg</td><td>1.4d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
+      <tr><td><strong>Injury Photos</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Injury Photos</span></td><td>31</td><td>2.1d</td><td>3.3d avg</td><td>2.1d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
+      <tr><td><strong>Incident / Location Photos</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Incident Location Photos</span></td><td>28</td><td>3.2d</td><td>4.4d avg</td><td>3.2d avg</td><td><span class="badge badge-warning">Watch</span></td></tr>
+      <tr><td><strong>Govt Issued ID</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Govt ID</span></td><td>19</td><td>0.8d</td><td>2.0d avg</td><td>0.8d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
+      <tr><td><strong>Incident Report (if applicable)</strong><br><span style="font-size:11px;color:var(--sf-text3)">Onboarding - Retrieve Incident Report</span></td><td>22</td><td>5.9d</td><td>7.1d avg</td><td>5.9d avg</td><td><span class="badge badge-warning">Slow</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Stage 2: 3P / Insurance -->
+<div id="mdoc-3p" class="card" style="padding:0 0 8px 0;display:none;">
+  <table class="sf-table">
+    <thead><tr><th>Document — 1 task per doc</th><th>Cases Pending</th><th>Avg Days</th><th>Intake → Received</th><th>Onboarding → Received</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Police Report</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P Retrieval - Retrieve Police Report if applicable</span></td><td>34</td><td>8.2d</td><td>9.4d avg</td><td>8.2d avg</td><td><span class="badge badge-warning">Slow</span></td></tr>
+      <tr><td><strong>3P Acknowledgement Letter</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P retrieval - Acknowledgement letter</span></td><td>41</td><td>4.3d</td><td>5.5d avg</td><td>4.3d avg</td><td><span class="badge badge-warning">Watch</span></td></tr>
+      <tr><td><strong>Recorded Statement (if applicable)</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P retrieval - Recorded statement if one was done</span></td><td>12</td><td>3.1d</td><td>4.3d avg</td><td>3.1d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
+      <tr><td><strong>MedPay / PIP Application</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P retrieval - Request MedPay through 3P if available</span></td><td>18</td><td>2.8d</td><td>4.0d avg</td><td>2.8d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
+      <tr><td><strong>3P Letter of Representation</strong><br><span style="font-size:11px;color:var(--sf-text3)">Generate 3P letter of representation</span></td><td>29</td><td>1.9d</td><td>3.1d avg</td><td>1.9d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Stage 3: Medical Records -->
+<div id="mdoc-med" class="card" style="padding:0 0 8px 0;display:none;">
+  <table class="sf-table">
+    <thead><tr><th>Document — 1 task per doc</th><th>Cases Pending</th><th>Avg Days</th><th>Intake → Received</th><th>Onboarding → Received</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Medical Records — Initial Provider(s)</strong><br><span style="font-size:11px;color:var(--sf-text3)">Start Med Rec Retrieval for all Providers</span></td><td>67</td><td>14.6d</td><td>15.8d avg</td><td>14.6d avg</td><td><span class="badge badge-error">Critical</span></td></tr>
+      <tr><td><strong>Health Insurance Lien</strong><br><span style="font-size:11px;color:var(--sf-text3)">Retrieve Health Insurance Lien</span></td><td>24</td><td>9.1d</td><td>10.3d avg</td><td>9.1d avg</td><td><span class="badge badge-error">Critical</span></td></tr>
+      <tr><td><strong>Doctor Note — Missed Work</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Received Doctors note for missed work</span></td><td>15</td><td>6.4d</td><td>7.6d avg</td><td>6.4d avg</td><td><span class="badge badge-warning">Slow</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- WC: Employer / Bureau -->
+<div id="mdoc-wc" class="card" style="padding:0 0 8px 0;display:none;">
+  <table class="sf-table">
+    <thead><tr><th>Document — 1 task per doc</th><th>Cases Pending</th><th>Avg Days</th><th>Intake → Received</th><th>Onboarding → Received</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Employer / Work Comp Carrier Documents</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Employer/Work Comp Carrier Documents</span></td><td>21</td><td>6.8d</td><td>8.0d avg</td><td>6.8d avg</td><td><span class="badge badge-warning">Slow</span></td></tr>
+      <tr><td><strong>Paystubs / W2</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Paystubs/W2</span></td><td>18</td><td>3.4d</td><td>4.6d avg</td><td>3.4d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
+      <tr><td><strong>Bureau Documents</strong><br><span style="font-size:11px;color:var(--sf-text3)">Request Bur Docs</span></td><td>14</td><td>11.2d</td><td>12.4d avg</td><td>11.2d avg</td><td><span class="badge badge-error">Critical</span></td></tr>
+      <tr><td><strong>Initial Incident / Injury Report</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Medical Records (initial treating)</span></td><td>9</td><td>4.1d</td><td>5.3d avg</td><td>4.1d avg</td><td><span class="badge badge-warning">Watch</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function setMDocTab(tab, btn) {
+    ['client','3p','med','wc'].forEach(t => {
+      document.getElementById('mdoc-' + t).style.display = 'none';
+      document.getElementById('mdoc-tab-' + t).style.cssText = 'padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;';
+    });
+    document.getElementById('mdoc-' + tab).style.display = '';
+    btn.style.cssText = 'padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;margin-bottom:-2px;cursor:pointer;';
+  }
+</script>
+
 <!-- CRITICAL CASES WORK QUEUE -->
 <div class="section-header">
   <span class="section-title">Critical Cases — Attorney Review Required</span>

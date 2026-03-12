@@ -453,90 +453,158 @@
   </table>
 </div>
 
-<!-- DOCUMENT COLLECTION -->
+<!-- DOCUMENT RETRIEVAL PIPELINE -->
 <div class="section-header">
-  <span class="section-title">Document Collection Status</span>
-  <a class="section-link">View All Documents</a>
+  <span class="section-title">Document Retrieval Pipeline</span>
+  <span style="font-size:11px;color:var(--sf-text3)">Auto-tracked · Request date &amp; retrieval date per case</span>
 </div>
-<div class="grid grid-2">
-  <div class="card">
-    <div class="card-header">
-      <h3>Avg Retrieval Time by Document Type</h3>
-      <span style="font-size:11px; color:var(--sf-text3)">Active cases</span>
-    </div>
-    <div class="card-body">
-      <div class="doc-row">
-        <div class="doc-name">Police Report</div>
-        <div class="progress-wrap" style="flex:1">
-          <div class="progress-bar"><div class="progress-fill warn" style="width:82%"></div></div>
-        </div>
-        <div class="doc-avg"><strong>8.2</strong> days</div>
-        <div class="doc-count" style="text-align:right"><span class="badge badge-warning">Slow</span></div>
-      </div>
-      <div class="doc-row">
-        <div class="doc-name">Medical Records</div>
-        <div class="progress-wrap" style="flex:1">
-          <div class="progress-bar"><div class="progress-fill danger" style="width:100%"></div></div>
-        </div>
-        <div class="doc-avg"><strong>14.6</strong> days</div>
-        <div class="doc-count" style="text-align:right"><span class="badge badge-error">Critical</span></div>
-      </div>
-      <div class="doc-row">
-        <div class="doc-name">Insurance Policy</div>
-        <div class="progress-wrap" style="flex:1">
-          <div class="progress-bar"><div class="progress-fill" style="width:31%"></div></div>
-        </div>
-        <div class="doc-avg"><strong>3.1</strong> days</div>
-        <div class="doc-count" style="text-align:right"><span class="badge badge-success">On Track</span></div>
-      </div>
-      <div class="doc-row">
-        <div class="doc-name">Client ID</div>
-        <div class="progress-wrap" style="flex:1">
-          <div class="progress-bar"><div class="progress-fill" style="width:14%"></div></div>
-        </div>
-        <div class="doc-avg"><strong>1.4</strong> days</div>
-        <div class="doc-count" style="text-align:right"><span class="badge badge-success">On Track</span></div>
-      </div>
-      <div class="doc-row">
-        <div class="doc-name">Retainer Agreement</div>
-        <div class="progress-wrap" style="flex:1">
-          <div class="progress-bar"><div class="progress-fill" style="width:8%"></div></div>
-        </div>
-        <div class="doc-avg"><strong>0.8</strong> days</div>
-        <div class="doc-count" style="text-align:right"><span class="badge badge-success">On Track</span></div>
-      </div>
-    </div>
-  </div>
 
-  <div class="card">
-    <div class="card-header">
-      <h3>Stage Completion Summary</h3>
-      <span style="font-size:11px; color:var(--sf-text3)">This week</span>
-    </div>
-    <div class="card-body">
-      <div class="mini-stat">
-        <span class="mini-stat-label">Avg Onboarding Duration</span>
-        <span class="mini-stat-value" style="color:var(--sf-blue)">9.4 days</span>
-      </div>
-      <div class="mini-stat">
-        <span class="mini-stat-label">Onboarding Start → Doc Requests Sent</span>
-        <span class="mini-stat-value">1.2 days</span>
-      </div>
-      <div class="mini-stat">
-        <span class="mini-stat-label">Onboarding Start → Attorney Review</span>
-        <span class="mini-stat-value">2.8 days</span>
-      </div>
-      <div class="mini-stat">
-        <span class="mini-stat-label">Onboarding Start → Doctor Appt Scheduled</span>
-        <span class="mini-stat-value" style="color:var(--sf-warning)">4.1 days</span>
-      </div>
-      <div class="mini-stat">
-        <span class="mini-stat-label">Onboarding Start → Completion</span>
-        <span class="mini-stat-value">9.4 days</span>
-      </div>
-    </div>
-  </div>
+<!-- Stage selector -->
+<div style="display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid #dddbda;">
+  <button id="doc-tab-client" onclick="setDocTab('client',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;margin-bottom:-2px;cursor:pointer;">Stage 1 · Client Retrieval</button>
+  <button id="doc-tab-3p" onclick="setDocTab('3p',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">Stage 2 · 3P / Insurance</button>
+  <button id="doc-tab-med" onclick="setDocTab('med',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">Stage 3 · Medical Records</button>
 </div>
+
+<!-- Stage 1: Client Retrieval -->
+<div id="doc-client" class="card" style="padding:0 0 8px 0;">
+  <table class="sf-table">
+    <thead>
+      <tr>
+        <th>Document (1 task per doc)</th>
+        <th>Cases Pending</th>
+        <th>Avg Days Waiting</th>
+        <th style="width:120px">Progress</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Health Insurance Card</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval — Onboarding · Client Retrieval - Health Insurance Card</span></td>
+        <td>47</td><td>1.4 days</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:14%"></div></div></td>
+        <td><span class="badge badge-success">On Track</span></td>
+      </tr>
+      <tr>
+        <td><strong>Injury Photos</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval — Onboarding · Client Retrieval - Injury Photos</span></td>
+        <td>31</td><td>2.1 days</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:21%"></div></div></td>
+        <td><span class="badge badge-success">On Track</span></td>
+      </tr>
+      <tr>
+        <td><strong>Incident / Location Photos</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval — Onboarding · Client Retrieval - Incident Location Photos</span></td>
+        <td>28</td><td>3.2 days</td>
+        <td><div class="progress-bar"><div class="progress-fill warn" style="width:32%"></div></div></td>
+        <td><span class="badge badge-warning">Watch</span></td>
+      </tr>
+      <tr>
+        <td><strong>Govt Issued ID</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval — Onboarding · Client Retrieval - Govt ID</span></td>
+        <td>19</td><td>0.8 days</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:8%"></div></div></td>
+        <td><span class="badge badge-success">On Track</span></td>
+      </tr>
+      <tr>
+        <td><strong>Incident Report (if applicable)</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval — Onboarding · Retrieve Incident Report</span></td>
+        <td>22</td><td>5.9 days</td>
+        <td><div class="progress-bar"><div class="progress-fill warn" style="width:59%"></div></div></td>
+        <td><span class="badge badge-warning">Slow</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Stage 2: 3P / Insurance Retrieval -->
+<div id="doc-3p" class="card" style="padding:0 0 8px 0;display:none;">
+  <table class="sf-table">
+    <thead>
+      <tr>
+        <th>Document (1 task per doc)</th>
+        <th>Cases Pending</th>
+        <th>Avg Days Waiting</th>
+        <th style="width:120px">Progress</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Police Report</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P Retrieval — Case in Progress · Retrieve Police Report if applicable</span></td>
+        <td>34</td><td>8.2 days</td>
+        <td><div class="progress-bar"><div class="progress-fill warn" style="width:82%"></div></div></td>
+        <td><span class="badge badge-warning">Slow</span></td>
+      </tr>
+      <tr>
+        <td><strong>3P Acknowledgement Letter</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P Retrieval — Case in Progress · 3P retrieval - Acknowledgement letter</span></td>
+        <td>41</td><td>4.3 days</td>
+        <td><div class="progress-bar"><div class="progress-fill warn" style="width:43%"></div></div></td>
+        <td><span class="badge badge-warning">Watch</span></td>
+      </tr>
+      <tr>
+        <td><strong>Recorded Statement (if applicable)</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P Retrieval — Case in Progress · 3P retrieval - Recorded statement if one was done</span></td>
+        <td>12</td><td>3.1 days</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:31%"></div></div></td>
+        <td><span class="badge badge-success">On Track</span></td>
+      </tr>
+      <tr>
+        <td><strong>MedPay / PIP Application (if available)</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P Retrieval — Case in Progress · 3P retrieval - Request MedPay through 3P if available</span></td>
+        <td>18</td><td>2.8 days</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:28%"></div></div></td>
+        <td><span class="badge badge-success">On Track</span></td>
+      </tr>
+      <tr>
+        <td><strong>3P Letter of Representation</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P Retrieval — Case in Progress · Generate 3P letter of representation</span></td>
+        <td>29</td><td>1.9 days</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:19%"></div></div></td>
+        <td><span class="badge badge-success">On Track</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Stage 3: Medical Records -->
+<div id="doc-med" class="card" style="padding:0 0 8px 0;display:none;">
+  <table class="sf-table">
+    <thead>
+      <tr>
+        <th>Document (1 task per doc)</th>
+        <th>Cases Pending</th>
+        <th>Avg Days Waiting</th>
+        <th style="width:120px">Progress</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Medical Records — Initial Provider(s)</strong><br><span style="font-size:11px;color:var(--sf-text3)">Medical Records — Case in Progress · Start Med Rec Retrieval for all Providers</span></td>
+        <td>67</td><td>14.6 days</td>
+        <td><div class="progress-bar"><div class="progress-fill danger" style="width:100%"></div></div></td>
+        <td><span class="badge badge-error">Critical</span></td>
+      </tr>
+      <tr>
+        <td><strong>Health Insurance Lien</strong><br><span style="font-size:11px;color:var(--sf-text3)">Medical Records — Case in Progress · Retrieve Health Insurance Lien</span></td>
+        <td>24</td><td>9.1 days</td>
+        <td><div class="progress-bar"><div class="progress-fill danger" style="width:91%"></div></div></td>
+        <td><span class="badge badge-error">Critical</span></td>
+      </tr>
+      <tr>
+        <td><strong>Doctor Note — Missed Work</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval — Case in Progress · Client Retrieval - Received Doctors note for missed work</span></td>
+        <td>15</td><td>6.4 days</td>
+        <td><div class="progress-bar"><div class="progress-fill warn" style="width:64%"></div></div></td>
+        <td><span class="badge badge-warning">Slow</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function setDocTab(tab, btn) {
+    ['client','3p','med'].forEach(t => {
+      document.getElementById('doc-' + t).style.display = 'none';
+      document.getElementById('doc-tab-' + t).style.cssText = 'padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;';
+    });
+    document.getElementById('doc-' + tab).style.display = '';
+    btn.style.cssText = 'padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;margin-bottom:-2px;cursor:pointer;';
+  }
+</script>
 
 <div style="height:32px"></div>
 </div><!-- end #view-dash -->
