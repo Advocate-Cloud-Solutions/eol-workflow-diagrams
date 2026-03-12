@@ -183,7 +183,7 @@
   <div class="page-header-icon">📋</div>
   <div class="page-header-info">
     <h1>Onboarding Team Dashboard</h1>
-    <p>PI Intake → Onboarding Pipeline · Work queue &amp; document tracking</p>
+    <p>Laser focus: Intake Complete → Onboarding In Progress · Docs to Retrieve</p>
   </div>
   <div class="page-header-actions">
     <span class="refresh-time">March 12, 2026</span>
@@ -192,8 +192,25 @@
   </div>
 </div>
 
+<!-- DASHBOARD FILTER BAR -->
+<div style="background:#fff;border-bottom:1px solid #dddbda;padding:10px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+  <span style="font-size:11px;font-weight:700;color:#706e6b;text-transform:uppercase;letter-spacing:0.05em;margin-right:4px;">View:</span>
+  <button class="dash-filter active" onclick="setDashFilter('all',this)" style="padding:5px 14px;border-radius:16px;border:1px solid #032d60;background:#032d60;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All Cases</button>
+  <button class="dash-filter" onclick="setDashFilter('not-onboarded',this)" style="padding:5px 14px;border-radius:16px;border:1px solid #dddbda;background:#fff8ee;color:#dd7a01;font-size:12px;font-weight:700;cursor:pointer;">Signed · Not Onboarded <span style="background:#dd7a01;color:#fff;border-radius:8px;padding:1px 6px;font-size:10px;margin-left:4px;">34</span></button>
+  <button class="dash-filter" onclick="setDashFilter('in-progress',this)" style="padding:5px 14px;border-radius:16px;border:1px solid #dddbda;background:#d8edff;color:#0176d3;font-size:12px;font-weight:700;cursor:pointer;">Onboarding In Progress <span style="background:#0176d3;color:#fff;border-radius:8px;padding:1px 6px;font-size:10px;margin-left:4px;">89</span></button>
+  <button class="dash-filter" onclick="setDashFilter('onboarding-complete',this)" style="padding:5px 14px;border-radius:16px;border:1px solid #dddbda;background:#eef7f0;color:#2e844a;font-size:12px;font-weight:700;cursor:pointer;">Onboarding Complete <span style="background:#2e844a;color:#fff;border-radius:8px;padding:1px 6px;font-size:10px;margin-left:4px;">61</span></button>
+  <button class="dash-filter" onclick="setDashFilter('no-treatment',this)" style="padding:5px 14px;border-radius:16px;border:1px solid #f5a68d;background:#fef1ee;color:#ba0517;font-size:12px;font-weight:700;cursor:pointer;">Not Treating 3+ Days <span style="background:#ba0517;color:#fff;border-radius:8px;padding:1px 6px;font-size:10px;margin-left:4px;">12</span></button>
+  <button class="dash-filter" onclick="setDashFilter('no-atty-note',this)" style="padding:5px 14px;border-radius:16px;border:1px solid #f5a68d;background:#fef1ee;color:#ba0517;font-size:12px;font-weight:700;cursor:pointer;">No Atty Note <span style="background:#ba0517;color:#fff;border-radius:8px;padding:1px 6px;font-size:10px;margin-left:4px;">8</span></button>
+</div>
+
+<!-- MAIN VIEW TABS -->
+<div style="background:#fff;border-bottom:2px solid #dddbda;padding:0 24px;display:flex;gap:0;">
+  <button id="main-tab-dash" onclick="setMainTab('dash')" style="padding:12px 24px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;margin-bottom:-2px;cursor:pointer;">📊 Dashboard</button>
+  <button id="main-tab-wf" onclick="setMainTab('wf')" style="padding:12px 24px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">🗺️ Workflow</button>
+</div>
+
 <!-- ALERT BANNER -->
-<div class="page-body">
+<div class="page-body" id="view-dash">
 <div class="alert-banner">
   <span class="alert-banner-icon">⚠️</span>
   <span class="alert-banner-text">12 cases have not started treatment after 3+ days</span>
@@ -250,10 +267,11 @@
 </div>
 <div class="card">
   <div class="filter-bar">
-    <button class="filter-chip active" onclick="filterTable('all', this)">All Cases <span class="filter-count">123</span></button>
+    <button class="filter-chip active" onclick="filterTable('all', this)">All Cases <span class="filter-count">184</span></button>
     <button class="filter-chip" onclick="filterTable('not-onboarded', this)">Signed · Not Onboarded <span class="filter-count yellow">34</span></button>
-    <button class="filter-chip" onclick="filterTable('in-progress', this)">In Progress <span class="filter-count">89</span></button>
-    <button class="filter-chip" onclick="filterTable('no-treatment', this)">No Treatment <span class="filter-count red">12</span></button>
+    <button class="filter-chip" onclick="filterTable('in-progress', this)">Onboarding In Progress <span class="filter-count">89</span></button>
+    <button class="filter-chip" onclick="filterTable('onboarding-complete', this)">Onboarding Complete <span class="filter-count">61</span></button>
+    <button class="filter-chip" onclick="filterTable('no-treatment', this)">Not Treating 3+ Days <span class="filter-count red">12</span></button>
     <button class="filter-chip" onclick="filterTable('no-atty-note', this)">No Atty Note <span class="filter-count red">8</span></button>
     <span class="spacer"></span>
     <input type="text" placeholder="🔍 Search cases..." style="padding:5px 10px; border:1px solid var(--sf-border); border-radius:4px; font-size:12px; outline:none; width:180px;">
@@ -267,6 +285,7 @@
         <th>Status</th>
         <th>Days in Stage</th>
         <th>Atty Note</th>
+        <th>Doc Retrieval</th>
         <th>Treatment</th>
         <th>Case Manager</th>
         <th>Flags</th>
@@ -281,6 +300,7 @@
         <td>2</td>
         <td><span class="badge badge-error">Missing</span></td>
         <td><span class="badge badge-neutral">N/A</span></td>
+        <td><span class="badge badge-neutral">N/A</span></td>
         <td>—</td>
         <td><span class="risk-flag high">🚨 Priority</span></td>
       </tr>
@@ -291,6 +311,7 @@
         <td><span class="badge badge-info">Onboarding In Progress</span></td>
         <td>4</td>
         <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-warning">2 of 4 Received</span></td>
         <td><span class="badge badge-error">Not Started</span></td>
         <td>L. Torres</td>
         <td><span class="risk-flag high">🚨 No Treatment</span></td>
@@ -302,6 +323,7 @@
         <td><span class="badge badge-info">Onboarding In Progress</span></td>
         <td>5</td>
         <td><span class="badge badge-error">Missing</span></td>
+        <td><span class="badge badge-warning">1 of 4 Received</span></td>
         <td><span class="badge badge-warning">Pending</span></td>
         <td>R. Chen</td>
         <td><span class="risk-flag high">🚨 No Atty Note</span></td>
@@ -313,6 +335,7 @@
         <td><span class="badge badge-info">Onboarding In Progress</span></td>
         <td>6</td>
         <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-warning">3 of 4 Received</span></td>
         <td><span class="badge badge-success">Scheduled</span></td>
         <td>L. Torres</td>
         <td>—</td>
@@ -324,6 +347,7 @@
         <td><span class="badge badge-info">Onboarding In Progress</span></td>
         <td>7</td>
         <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-success">4 of 4 Received</span></td>
         <td><span class="badge badge-success">Attending</span></td>
         <td>M. Johnson</td>
         <td>—</td>
@@ -335,6 +359,7 @@
         <td><span class="badge badge-info">Onboarding In Progress</span></td>
         <td>8</td>
         <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-warning">2 of 4 Received</span></td>
         <td><span class="badge badge-error">Not Started</span></td>
         <td>R. Chen</td>
         <td><span class="risk-flag high">🚨 No Treatment</span></td>
@@ -347,6 +372,7 @@
         <td>3</td>
         <td><span class="badge badge-neutral">Pending</span></td>
         <td><span class="badge badge-neutral">N/A</span></td>
+        <td><span class="badge badge-neutral">N/A</span></td>
         <td>—</td>
         <td><span class="risk-flag med">⚠️ Aging</span></td>
       </tr>
@@ -357,6 +383,7 @@
         <td><span class="badge badge-info">Onboarding In Progress</span></td>
         <td>9</td>
         <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-warning">3 of 4 Received</span></td>
         <td><span class="badge badge-success">Scheduled</span></td>
         <td>L. Torres</td>
         <td>—</td>
@@ -368,6 +395,7 @@
         <td><span class="badge badge-info">Onboarding In Progress</span></td>
         <td>10</td>
         <td><span class="badge badge-error">Missing</span></td>
+        <td><span class="badge badge-warning">2 of 4 Received</span></td>
         <td><span class="badge badge-warning">Pending</span></td>
         <td>M. Johnson</td>
         <td><span class="risk-flag high">🚨 No Atty Note</span></td>
@@ -379,6 +407,44 @@
         <td><span class="badge badge-info">Onboarding In Progress</span></td>
         <td>11</td>
         <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-success">4 of 4 Received</span></td>
+        <td><span class="badge badge-success">Attending</span></td>
+        <td>R. Chen</td>
+        <td>—</td>
+      </tr>
+      <!-- ONBOARDING COMPLETE rows -->
+      <tr data-status="onboarding-complete">
+        <td><span class="link">PI-2026-0405</span></td>
+        <td>Brenda K.</td>
+        <td>Feb 28</td>
+        <td><span class="badge badge-success">Onboarding Complete</span></td>
+        <td>12</td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-success">4 of 4 Received</span></td>
+        <td><span class="badge badge-error">Not Started</span></td>
+        <td>L. Torres</td>
+        <td><span class="risk-flag high">🚨 No Treatment</span></td>
+      </tr>
+      <tr data-status="onboarding-complete">
+        <td><span class="link">PI-2026-0401</span></td>
+        <td>Marcus B.</td>
+        <td>Feb 25</td>
+        <td><span class="badge badge-success">Onboarding Complete</span></td>
+        <td>15</td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-success">4 of 4 Received</span></td>
+        <td><span class="badge badge-success">Attending</span></td>
+        <td>M. Johnson</td>
+        <td>—</td>
+      </tr>
+      <tr data-status="onboarding-complete">
+        <td><span class="link">PI-2026-0398</span></td>
+        <td>Gloria T.</td>
+        <td>Feb 22</td>
+        <td><span class="badge badge-success">Onboarding Complete</span></td>
+        <td>18</td>
+        <td><span class="badge badge-success">Complete</span></td>
+        <td><span class="badge badge-success">4 of 4 Received</span></td>
         <td><span class="badge badge-success">Attending</span></td>
         <td>R. Chen</td>
         <td>—</td>
@@ -472,7 +538,11 @@
   </div>
 </div>
 
-<!-- GOAL STATE WORKFLOW -->
+<div style="height:32px"></div>
+</div><!-- end #view-dash -->
+
+<!-- WORKFLOW VIEW -->
+<div id="view-wf" style="display:none;padding:24px;">
 <div class="section-header">
   <span class="section-title">Goal-State Workflow · PI Intake → Onboarding</span>
   <span style="display:flex;gap:8px;align-items:center">
@@ -489,54 +559,77 @@ flowchart TD
   classDef risk fill:#fff0ee,color:#ba0517,stroke:#f5a68d,stroke-width:1.5px
   classDef done fill:#f0faf2,color:#2e844a,stroke:#9fd3a6,stroke-width:2px
 
-  I1["📞 Client Inquiry & Screening"]:::task
-  I2["Intake Assessment & Qualification"]:::task
-  I3["✅ Retainer Signed"]:::done
-  I4["Case Created in Litify"]:::auto
+  INT["📞 Intaker Calls Client\nScreening & Qualification"]:::task
+  FEE["📄 Fee Agreement Sent\n(During Call)"]:::auto
+  SIGN["✅ Client Signs Fee Agreement\n(On the Phone)"]:::done
+  OBC["📅 Onboarding Call Scheduled\nby Intaker"]:::task
+  LIT["Case Created in Litify"]:::auto
 
-  I1 --> I2 --> I3 --> I4
+  INT --> FEE --> SIGN --> OBC --> LIT
 
-  D["📄 Document Requests Auto-Generated\nPolice Report · Medical Records · Insurance Policy · Client ID"]:::auto
-  CHK["⚖️ Initial Attorney Review\n— Manual Checkpoint —\nTarget: Day 2 from Intake"]:::checkpoint
+  DOCS["📄 Doc Requests Auto-Generated\nPolice Report · Medical Records\nInsurance Policy · Client ID\n(Request date + retrieval date tracked)"]:::auto
+  LIT -->|"Auto-triggered"| DOCS
+
+  ATTY["⚖️ Initial Attorney Review\n— No Client Contact —\n'Keeping this case, here's what we need'\nTarget: Day 2 from Intake"]:::checkpoint
   HOLD["🚩 Flag & Resolve Issues"]:::risk
+  LIT --> ATTY
+  ATTY -->|"Issues Found"| HOLD --> ATTY
 
-  I4 -->|"Auto-triggered"| D
-  I4 --> CHK
-  CHK -->|"Issues Found"| HOLD
-  HOLD --> CHK
+  CM["📞 Case Manager → Client Call\n(Onboarding Call)\nTarget: Day 1"]:::task
+  ATTY -->|"✓ Eyes Check Passed"| CM
 
-  OB1["⚡ Injury Bridge Workflow Triggered"]:::auto
-  CM["Case Manager Assigned"]:::task
-  CALL["📞 CM → Client Call\nTarget: Day 1"]:::task
-  NOTE["📝 Attorney Note Filed\nTarget: Day 2"]:::checkpoint
-  CONF["🗓 Attorney Conference\nTarget: Day 3"]:::checkpoint
-  APPT["🏥 First Doctor Appt Scheduled\nTarget: Day 3"]:::task
+  ACONF["🗓 Attorney Conference WITH Client\n(After CM Call)\nTarget: Day 3"]:::checkpoint
+  CM --> ACONF
+
+  IB["⚡ Injury Bridge Triggered\n'Good to Go'"]:::auto
   DONE["✅ Onboarding Complete\nTarget: 8.2 days"]:::done
 
-  CHK -->|"✓ Approved"| OB1
-  OB1 --> CM
-  CM --> CALL
-  CM --> NOTE
-  CM --> CONF
-  CM --> APPT
-  CALL & NOTE & CONF & APPT --> DONE
+  ACONF -->|"✓ Good to Go"| IB --> DONE
   </div>
 </div>
 
 <div style="height:32px"></div>
-</div>
+</div><!-- end #view-wf -->
 
 <script>
+  function setMainTab(tab) {
+    document.getElementById('view-dash').style.display = tab === 'dash' ? '' : 'none';
+    document.getElementById('view-wf').style.display = tab === 'wf' ? '' : 'none';
+    const dashBtn = document.getElementById('main-tab-dash');
+    const wfBtn = document.getElementById('main-tab-wf');
+    dashBtn.style.cssText = tab === 'dash'
+      ? 'padding:12px 24px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;margin-bottom:-2px;cursor:pointer;'
+      : 'padding:12px 24px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;';
+    wfBtn.style.cssText = tab === 'wf'
+      ? 'padding:12px 24px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;margin-bottom:-2px;cursor:pointer;'
+      : 'padding:12px 24px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;';
+    if (tab === 'wf') mermaid.run({nodes: document.querySelectorAll('#view-wf .mermaid')});
+  }
+
+  function filterRows(status) {
+    document.querySelectorAll('#workQueue tbody tr').forEach(row => {
+      row.style.display = (status === 'all' || row.dataset.status === status) ? '' : 'none';
+    });
+  }
+
+  function setDashFilter(status, btn) {
+    document.querySelectorAll('.dash-filter').forEach(b => {
+      b.style.background = b.dataset.bg || '#fff';
+      b.style.borderColor = '#dddbda';
+      b.style.color = b.dataset.color || '#3e3e3c';
+    });
+    btn.style.background = '#032d60';
+    btn.style.color = '#fff';
+    btn.style.borderColor = '#032d60';
+    filterRows(status);
+    // sync work queue filter chips too
+    document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  }
+
   function filterTable(status, btn) {
     document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    document.querySelectorAll('#workQueue tbody tr').forEach(row => {
-      if (status === 'all') {
-        row.style.display = '';
-      } else {
-        row.style.display = row.dataset.status === status ? '' : 'none';
-      }
-    });
+    filterRows(status);
   }
 </script>
 
