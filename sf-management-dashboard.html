@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Management &amp; Attorney Dashboard | EOL Matter Plans</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:'neutral',themeVariables:{background:'#fefefe',primaryColor:'#e8f4fd',primaryTextColor:'#1a1a2e',primaryBorderColor:'#aac4dd',lineColor:'#888',secondaryColor:'#fff8ee',tertiaryColor:'#f0faf2',edgeLabelBackground:'#ffffff',fontSize:'13px'}})</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -534,10 +536,125 @@
   </div>
 </div>
 
+<!-- GOAL STATE WORKFLOWS -->
+<div class="section-header">
+  <span class="section-title">Goal-State Workflows · Intake → Onboarding</span>
+  <span style="display:flex;gap:8px;align-items:center">
+    <span style="background:#f0faf2;border:1px solid #9fd3a6;color:#2e844a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;">🎯 Goal State</span>
+    <span style="background:#e8f4fd;border:1px solid #aac4dd;color:#0176d3;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;">⚡ Powered by Litify</span>
+  </span>
+</div>
+
+<div style="background:#fefefe;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 2px 16px rgba(0,0,0,0.07);margin-bottom:24px;overflow:hidden;">
+  <!-- Tab Bar -->
+  <div style="display:flex;border-bottom:1px solid #e0e0e0;background:#fafaf9;padding:0 20px;">
+    <button id="wf-tab-pi" onclick="showWfTab('pi')" style="padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;cursor:pointer;margin-bottom:-1px;">PI — Personal Injury</button>
+    <button id="wf-tab-wc" onclick="showWfTab('wc')" style="padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;">WC — Workers' Comp</button>
+  </div>
+
+  <!-- PI Diagram -->
+  <div id="wf-pi" style="padding:32px 24px;overflow-x:auto;">
+    <div class="mermaid">
+flowchart TD
+  classDef task fill:#f5f5f5,color:#1a1a2e,stroke:#bbb,stroke-width:1px
+  classDef auto fill:#e8f4fd,color:#0b5cab,stroke:#aac4dd,stroke-width:1.5px
+  classDef checkpoint fill:#fff8ee,color:#c45500,stroke:#f5c771,stroke-width:2px
+  classDef risk fill:#fff0ee,color:#ba0517,stroke:#f5a68d,stroke-width:1.5px
+  classDef done fill:#f0faf2,color:#2e844a,stroke:#9fd3a6,stroke-width:2px
+
+  I1["📞 Client Inquiry & Screening"]:::task
+  I2["Intake Assessment & Qualification"]:::task
+  I3["✅ Retainer Signed"]:::done
+  I4["Case Created in Litify"]:::auto
+
+  I1 --> I2 --> I3 --> I4
+
+  D["📄 Document Requests Auto-Generated\nPolice Report · Medical Records · Insurance Policy · Client ID"]:::auto
+  CHK["⚖️ Initial Attorney Review\n— Manual Checkpoint —\nTarget: Day 2 from Intake"]:::checkpoint
+  HOLD["🚩 Flag & Resolve Issues"]:::risk
+
+  I4 -->|"Auto-triggered"| D
+  I4 --> CHK
+  CHK -->|"Issues Found"| HOLD
+  HOLD --> CHK
+
+  OB1["⚡ Injury Bridge Workflow Triggered"]:::auto
+  CM["Case Manager Assigned"]:::task
+  CALL["📞 CM → Client Call\nTarget: Day 1"]:::task
+  NOTE["📝 Attorney Note Filed\nTarget: Day 2"]:::checkpoint
+  CONF["🗓 Attorney Conference\nTarget: Day 3"]:::checkpoint
+  APPT["🏥 First Doctor Appt Scheduled\nTarget: Day 3"]:::task
+  DONE["✅ Onboarding Complete\nTarget: 8.2 days"]:::done
+
+  CHK -->|"✓ Approved"| OB1
+  OB1 --> CM
+  CM --> CALL
+  CM --> NOTE
+  CM --> CONF
+  CM --> APPT
+  CALL & NOTE & CONF & APPT --> DONE
+    </div>
+  </div>
+
+  <!-- WC Diagram -->
+  <div id="wf-wc" style="padding:32px 24px;overflow-x:auto;display:none;">
+    <div class="mermaid">
+flowchart TD
+  classDef task fill:#f5f5f5,color:#1a1a2e,stroke:#bbb,stroke-width:1px
+  classDef auto fill:#e8f4fd,color:#0b5cab,stroke:#aac4dd,stroke-width:1.5px
+  classDef checkpoint fill:#fff8ee,color:#c45500,stroke:#f5c771,stroke-width:2px
+  classDef risk fill:#fff0ee,color:#ba0517,stroke:#f5a68d,stroke-width:1.5px
+  classDef done fill:#f0faf2,color:#2e844a,stroke:#9fd3a6,stroke-width:2px
+
+  W1["🏗️ Injury Reported\nDate of Injury Documented"]:::task
+  W2["WC Initial Assessment\nEligibility & Compensability"]:::task
+  W3["✅ Retainer Signed"]:::done
+  W4["Case Created in Litify"]:::auto
+
+  W1 --> W2 --> W3 --> W4
+
+  WD["📄 Document Requests Auto-Generated\nMedical Records · Employer Records · Incident Report · FROI"]:::auto
+  WCHK["⚖️ Attorney Review Checkpoint\nTarget: Day 1 from Intake"]:::checkpoint
+  WHOLD["🚩 Flag & Resolve Issues"]:::risk
+
+  W4 -->|"Auto-triggered"| WD
+  W4 --> WCHK
+  WCHK -->|"Issues Found"| WHOLD
+  WHOLD --> WCHK
+
+  WCM["Case Manager Assigned"]:::task
+  WCALL["📞 CM → Client Call\nTarget: Day 1"]:::task
+  WNOTE["📝 Attorney Note Filed\nTarget: Day 2"]:::checkpoint
+  WMED["🏥 Medical Treatment\nTracking Initiated"]:::task
+  WBILLS["💊 Medical Bills Collection Started"]:::auto
+  WDONE["✅ WC Onboarding Complete"]:::done
+
+  WCHK -->|"✓ Approved"| WCM
+  WCM --> WCALL
+  WCM --> WNOTE
+  WCM --> WMED
+  WCM --> WBILLS
+  WCALL & WNOTE & WMED & WBILLS --> WDONE
+    </div>
+  </div>
+</div>
+
 <div style="height:32px"></div>
 </div>
 
 <script>
+  function showWfTab(tab) {
+    document.getElementById('wf-pi').style.display = tab === 'pi' ? '' : 'none';
+    document.getElementById('wf-wc').style.display = tab === 'wc' ? '' : 'none';
+    document.getElementById('wf-tab-pi').style.cssText = tab === 'pi'
+      ? 'padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;cursor:pointer;margin-bottom:-1px;'
+      : 'padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;';
+    document.getElementById('wf-tab-wc').style.cssText = tab === 'wc'
+      ? 'padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;cursor:pointer;margin-bottom:-1px;'
+      : 'padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;';
+    if (tab === 'wc') mermaid.run({nodes: document.querySelectorAll('#wf-wc .mermaid')});
+  }
+
   function setFilter(type, btn) {
     document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
