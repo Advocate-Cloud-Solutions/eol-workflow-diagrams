@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Management &amp; Attorney Dashboard | EOL Matter Plans</title>
+<title>Workers' Compensation Dashboard | EOL Matter Plans</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
 <script>mermaid.initialize({startOnLoad:false,theme:'neutral',themeVariables:{background:'#fefefe',primaryColor:'#e8f4fd',primaryTextColor:'#1a1a2e',primaryBorderColor:'#aac4dd',lineColor:'#888',secondaryColor:'#fff8ee',tertiaryColor:'#f0faf2',edgeLabelBackground:'#ffffff',fontSize:'13px'}})</script>
 <style>
@@ -177,10 +177,10 @@
 
 <!-- PAGE HEADER -->
 <div class="page-header">
-  <div class="page-header-icon">⚖️</div>
+  <div class="page-header-icon">🦺</div>
   <div class="page-header-info">
-    <h1>Management &amp; Attorney Dashboard</h1>
-    <p>For: Ethen · Joe Leckenby (WC) · Clint · Onboarding Team · Bottlenecks · Timeline · Critical Case Oversight</p>
+    <h1>Workers' Compensation Dashboard</h1>
+    <p>For: Joe Leckenby · Ethen · Clint · WC Onboarding Team · Bottlenecks · Timeline · Critical Case Oversight</p>
   </div>
   <div class="page-header-actions">
     <span class="refresh-time">March 12, 2026</span>
@@ -192,9 +192,7 @@
 <!-- DASHBOARD FILTER BAR -->
 <div style="background:#fff;border-bottom:1px solid #dddbda;padding:10px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
   <span style="font-size:11px;font-weight:700;color:#706e6b;text-transform:uppercase;letter-spacing:0.05em;margin-right:4px;">View:</span>
-  <button style="padding:5px 14px;border-radius:16px;border:1px solid #032d60;background:#032d60;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All Cases</button>
-  <button style="padding:5px 14px;border-radius:16px;border:1px solid #dddbda;background:#d8edff;color:#0176d3;font-size:12px;font-weight:700;cursor:pointer;">PI — Personal Injury</button>
-  <button style="padding:5px 14px;border-radius:16px;border:1px solid #dddbda;background:#f3e0fc;color:#7c3aed;font-size:12px;font-weight:700;cursor:pointer;">WC — Workers' Comp</button>
+  <button style="padding:5px 14px;border-radius:16px;border:1px solid #032d60;background:#032d60;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">All WC Cases</button>
   <button style="padding:5px 14px;border-radius:16px;border:1px solid #f5a68d;background:#fef1ee;color:#ba0517;font-size:12px;font-weight:700;cursor:pointer;">No Attorney Note <span style="background:#ba0517;color:#fff;border-radius:8px;padding:1px 6px;font-size:10px;margin-left:4px;">8</span></button>
   <button style="padding:5px 14px;border-radius:16px;border:1px solid #f5a68d;background:#fef1ee;color:#ba0517;font-size:12px;font-weight:700;cursor:pointer;">Not Treating 3+ Days <span style="background:#ba0517;color:#fff;border-radius:8px;padding:1px 6px;font-size:10px;margin-left:4px;">12</span></button>
   <button style="padding:5px 14px;border-radius:16px;border:1px solid #f5c771;background:#fff8ee;color:#dd7a01;font-size:12px;font-weight:700;cursor:pointer;">🚩 Doctor Appt — Ownership TBD</button>
@@ -364,10 +362,10 @@
       <div class="bottleneck-item">
         <div class="bottleneck-rank rank-3">3</div>
         <div>
-          <div class="bottleneck-name">Police Report Retrieval</div>
-          <div class="bottleneck-sub">Avg 8.2 days — external dependency</div>
+          <div class="bottleneck-name">Bureau Document Retrieval</div>
+          <div class="bottleneck-sub">Avg 11.2 days — external dependency</div>
         </div>
-        <div class="bottleneck-val" style="color:var(--sf-text3)">8.2d</div>
+        <div class="bottleneck-val" style="color:var(--sf-text3)">11.2d</div>
       </div>
       <div class="bottleneck-item">
         <div class="bottleneck-rank" style="background:var(--sf-text3); width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:white; flex-shrink:0;">4</div>
@@ -419,53 +417,11 @@
 
 <div style="display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid #dddbda;">
   <button id="mdoc-tab-client" onclick="setMDocTab('client',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;margin-bottom:-2px;cursor:pointer;">Stage 1 · Client Retrieval</button>
-  <button id="mdoc-tab-3p" onclick="setMDocTab('3p',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">Stage 2 · 3P / Insurance</button>
-  <button id="mdoc-tab-med" onclick="setMDocTab('med',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">Stage 3 · Medical Records</button>
-  <button id="mdoc-tab-wc" onclick="setMDocTab('wc',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">WC · Client Retrieval</button>
+  <button id="mdoc-tab-employer" onclick="setMDocTab('employer',this)" style="padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;">Stage 2 · Employer / Bureau</button>
 </div>
 
-<!-- Stage 1: Client Retrieval -->
+<!-- WC Stage 1: Client Retrieval -->
 <div id="mdoc-client" class="card" style="padding:0 0 8px 0;">
-  <table class="sf-table">
-    <thead><tr><th>Document — 1 task per doc</th><th>Cases Pending</th><th>Avg Days</th><th>Intake → Received</th><th>Onboarding → Received</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Health Insurance Card</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Health Insurance Card</span></td><td>47</td><td>1.4d</td><td>2.6d avg</td><td>1.4d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
-      <tr><td><strong>Injury Photos</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Injury Photos</span></td><td>31</td><td>2.1d</td><td>3.3d avg</td><td>2.1d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
-      <tr><td><strong>Incident / Location Photos</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Incident Location Photos</span></td><td>28</td><td>3.2d</td><td>4.4d avg</td><td>3.2d avg</td><td><span class="badge badge-warning">Watch</span></td></tr>
-      <tr><td><strong>Govt Issued ID</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Govt ID</span></td><td>19</td><td>0.8d</td><td>2.0d avg</td><td>0.8d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
-      <tr><td><strong>Incident Report (if applicable)</strong><br><span style="font-size:11px;color:var(--sf-text3)">Onboarding - Retrieve Incident Report</span></td><td>22</td><td>5.9d</td><td>7.1d avg</td><td>5.9d avg</td><td><span class="badge badge-warning">Slow</span></td></tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- Stage 2: 3P / Insurance -->
-<div id="mdoc-3p" class="card" style="padding:0 0 8px 0;display:none;">
-  <table class="sf-table">
-    <thead><tr><th>Document — 1 task per doc</th><th>Cases Pending</th><th>Avg Days</th><th>Intake → Received</th><th>Onboarding → Received</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Police Report</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P Retrieval - Retrieve Police Report if applicable</span></td><td>34</td><td>8.2d</td><td>9.4d avg</td><td>8.2d avg</td><td><span class="badge badge-warning">Slow</span></td></tr>
-      <tr><td><strong>3P Acknowledgement Letter</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P retrieval - Acknowledgement letter</span></td><td>41</td><td>4.3d</td><td>5.5d avg</td><td>4.3d avg</td><td><span class="badge badge-warning">Watch</span></td></tr>
-      <tr><td><strong>Recorded Statement (if applicable)</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P retrieval - Recorded statement if one was done</span></td><td>12</td><td>3.1d</td><td>4.3d avg</td><td>3.1d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
-      <tr><td><strong>MedPay / PIP Application</strong><br><span style="font-size:11px;color:var(--sf-text3)">3P retrieval - Request MedPay through 3P if available</span></td><td>18</td><td>2.8d</td><td>4.0d avg</td><td>2.8d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
-      <tr><td><strong>3P Letter of Representation</strong><br><span style="font-size:11px;color:var(--sf-text3)">Generate 3P letter of representation</span></td><td>29</td><td>1.9d</td><td>3.1d avg</td><td>1.9d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- Stage 3: Medical Records -->
-<div id="mdoc-med" class="card" style="padding:0 0 8px 0;display:none;">
-  <table class="sf-table">
-    <thead><tr><th>Document — 1 task per doc</th><th>Cases Pending</th><th>Avg Days</th><th>Intake → Received</th><th>Onboarding → Received</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Medical Records — Initial Provider(s)</strong><br><span style="font-size:11px;color:var(--sf-text3)">Start Med Rec Retrieval for all Providers</span></td><td>67</td><td>14.6d</td><td>15.8d avg</td><td>14.6d avg</td><td><span class="badge badge-error">Critical</span></td></tr>
-      <tr><td><strong>Health Insurance Lien</strong><br><span style="font-size:11px;color:var(--sf-text3)">Retrieve Health Insurance Lien</span></td><td>24</td><td>9.1d</td><td>10.3d avg</td><td>9.1d avg</td><td><span class="badge badge-error">Critical</span></td></tr>
-      <tr><td><strong>Doctor Note — Missed Work</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Received Doctors note for missed work</span></td><td>15</td><td>6.4d</td><td>7.6d avg</td><td>6.4d avg</td><td><span class="badge badge-warning">Slow</span></td></tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- WC: Client Retrieval -->
-<div id="mdoc-wc" class="card" style="padding:0 0 8px 0;display:none;">
   <table class="sf-table">
     <thead><tr><th>Document — 1 task per doc</th><th>Cases Pending</th><th>Avg Days</th><th>Intake → Received</th><th>Onboarding → Received</th><th>Status</th></tr></thead>
     <tbody>
@@ -473,6 +429,15 @@
       <tr><td><strong>Health Insurance Card</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Health Insurance Card</span></td><td>19</td><td>1.3d</td><td>2.5d avg</td><td>1.3d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
       <tr><td><strong>Medical Records — Initial Provider</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Medical Records</span></td><td>31</td><td>12.4d</td><td>13.6d avg</td><td>12.4d avg</td><td><span class="badge badge-error">Critical</span></td></tr>
       <tr><td><strong>Paystubs / W2</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Paystubs/W2</span></td><td>18</td><td>3.4d</td><td>4.6d avg</td><td>3.4d avg</td><td><span class="badge badge-success">On Track</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- WC Stage 2: Employer / Bureau -->
+<div id="mdoc-employer" class="card" style="padding:0 0 8px 0;display:none;">
+  <table class="sf-table">
+    <thead><tr><th>Document — 1 task per doc</th><th>Cases Pending</th><th>Avg Days</th><th>Intake → Received</th><th>Onboarding → Received</th><th>Status</th></tr></thead>
+    <tbody>
       <tr><td><strong>Employer / Work Comp Carrier Documents</strong><br><span style="font-size:11px;color:var(--sf-text3)">Client Retrieval - Employer/Work Comp Carrier Documents</span></td><td>21</td><td>6.8d</td><td>8.0d avg</td><td>6.8d avg</td><td><span class="badge badge-warning">Slow</span></td></tr>
       <tr><td><strong>Bureau Documents</strong><br><span style="font-size:11px;color:var(--sf-text3)">Request Bur Docs — external, longest lead time</span></td><td>14</td><td>11.2d</td><td>12.4d avg</td><td>11.2d avg</td><td><span class="badge badge-error">Critical</span></td></tr>
     </tbody>
@@ -481,7 +446,7 @@
 
 <script>
   function setMDocTab(tab, btn) {
-    ['client','3p','med','wc'].forEach(t => {
+    ['client','employer'].forEach(t => {
       document.getElementById('mdoc-' + t).style.display = 'none';
       document.getElementById('mdoc-tab-' + t).style.cssText = 'padding:9px 20px;border:none;background:transparent;font-size:12px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;';
     });
@@ -520,74 +485,74 @@
     </thead>
     <tbody>
       <tr data-type="no-note">
-        <td><span class="link">PI-2026-0435</span></td>
+        <td><span class="link">WC-2026-0435</span></td>
         <td>Kevin M.</td>
         <td>Mar 7</td>
         <td>5</td>
         <td><span class="badge badge-info">In Progress</span></td>
         <td><span class="badge badge-error">Missing</span></td>
         <td><span class="badge badge-warning">Pending</span></td>
-        <td>J. Williams</td>
+        <td>J. Leckenby</td>
         <td><span class="risk-flag high">🚨 Critical</span></td>
         <td><a class="link" style="font-size:12px">Add Note</a></td>
       </tr>
       <tr data-type="no-treatment">
-        <td><span class="link">PI-2026-0438</span></td>
+        <td><span class="link">WC-2026-0438</span></td>
         <td>Diane R.</td>
         <td>Mar 8</td>
         <td>4</td>
         <td><span class="badge badge-info">In Progress</span></td>
         <td><span class="badge badge-success">Complete</span></td>
         <td><span class="badge badge-error">Not Started</span></td>
-        <td>M. Ostroff</td>
+        <td>J. Leckenby</td>
         <td><span class="risk-flag high">🚨 Critical</span></td>
         <td><a class="link" style="font-size:12px">Escalate</a></td>
       </tr>
       <tr data-type="no-note">
-        <td><span class="link">PI-2026-0416</span></td>
+        <td><span class="link">WC-2026-0416</span></td>
         <td>Robert N.</td>
         <td>Mar 2</td>
         <td>10</td>
         <td><span class="badge badge-info">In Progress</span></td>
         <td><span class="badge badge-error">Missing</span></td>
         <td><span class="badge badge-warning">Pending</span></td>
-        <td>J. Williams</td>
+        <td>J. Leckenby</td>
         <td><span class="risk-flag high">🚨 Critical</span></td>
         <td><a class="link" style="font-size:12px">Add Note</a></td>
       </tr>
       <tr data-type="no-treatment">
-        <td><span class="link">PI-2026-0425</span></td>
+        <td><span class="link">WC-2026-0425</span></td>
         <td>Patricia G.</td>
         <td>Mar 4</td>
         <td>8</td>
         <td><span class="badge badge-info">In Progress</span></td>
         <td><span class="badge badge-success">Complete</span></td>
         <td><span class="badge badge-error">Not Started</span></td>
-        <td>M. Ostroff</td>
+        <td>J. Leckenby</td>
         <td><span class="risk-flag high">🚨 Critical</span></td>
         <td><a class="link" style="font-size:12px">Escalate</a></td>
       </tr>
       <tr data-type="no-note">
-        <td><span class="link">PI-2026-0407</span></td>
+        <td><span class="link">WC-2026-0407</span></td>
         <td>Chen L.</td>
         <td>Feb 28</td>
         <td>13</td>
         <td><span class="badge badge-info">In Progress</span></td>
         <td><span class="badge badge-error">Missing</span></td>
         <td><span class="badge badge-success">Attending</span></td>
-        <td>S. Cohen</td>
+        <td>J. Leckenby</td>
         <td><span class="risk-flag high">🚨 Critical</span></td>
         <td><a class="link" style="font-size:12px">Add Note</a></td>
       </tr>
       <tr data-type="no-treatment">
-        <td><span class="link">PI-2026-0401</span></td>
+        <td><span class="link">WC-2026-0401</span></td>
         <td>Marcus B.</td>
         <td>Feb 25</td>
         <td>15</td>
         <td><span class="badge badge-success">Complete</span></td>
         <td><span class="badge badge-success">Complete</span></td>
         <td><span class="badge badge-error">Not Started</span></td>
-        <td>M. Ostroff</td>
+        <td>J. Leckenby</td>
         <td><span class="risk-flag high">🚨 Critical</span></td>
         <td><a class="link" style="font-size:12px">Escalate</a></td>
       </tr>
@@ -611,7 +576,7 @@
     <div class="sub">Target: 2.0 days <span class="trend-down" style="margin-left:4px">+0.8</span></div>
   </div>
   <div class="metric-tile">
-    <div class="label">Avg Time: Intake → Attorney Conf.</div>
+    <div class="label">Avg Time: Intake → Paralegal Call</div>
     <div class="value" style="font-size:24px; color:var(--sf-warning)">4.1 days</div>
     <div class="sub">Target: 3.0 days <span class="trend-down" style="margin-left:4px">+1.1</span></div>
   </div>
@@ -646,52 +611,8 @@
 </div>
 
 <div style="background:#fefefe;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 2px 16px rgba(0,0,0,0.07);margin-bottom:24px;overflow:hidden;">
-  <!-- Tab Bar -->
-  <div style="display:flex;border-bottom:1px solid #e0e0e0;background:#fafaf9;padding:0 20px;">
-    <button id="wf-tab-pi" onclick="showWfTab('pi')" style="padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;cursor:pointer;margin-bottom:-1px;">PI — Personal Injury</button>
-    <button id="wf-tab-wc" onclick="showWfTab('wc')" style="padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;">WC — Workers' Comp</button>
-  </div>
-
-  <!-- PI Diagram -->
-  <div id="wf-pi" style="padding:32px 24px;overflow-x:auto;">
-    <div class="mermaid">
-flowchart TD
-  classDef task fill:#f5f5f5,color:#1a1a2e,stroke:#bbb,stroke-width:1px
-  classDef auto fill:#e8f4fd,color:#0b5cab,stroke:#aac4dd,stroke-width:1.5px
-  classDef checkpoint fill:#fff8ee,color:#c45500,stroke:#f5c771,stroke-width:2px
-  classDef risk fill:#fff0ee,color:#ba0517,stroke:#f5a68d,stroke-width:1.5px
-  classDef done fill:#f0faf2,color:#2e844a,stroke:#9fd3a6,stroke-width:2px
-
-  INT["📞 Intake Call\nIntaker Qualifies Client"]:::task
-  FEE["📄 Fee Agreement Sent During Call"]:::auto
-  SIGN["✅ Fee Agreement Signed On the Phone"]:::done
-  OBC["📅 Onboarding Appointment Booked\nScheduled on Intake Call"]:::task
-  LIT["Case Created in Litify"]:::auto
-
-  INT --> FEE --> SIGN --> OBC --> LIT
-
-  DOCS["📄 Doc Requests Auto-Generated\nPolice Report · Medical Records\nInsurance Policy · Client ID\n(Request date + retrieval date tracked)"]:::auto
-  LIT -->|"Auto-triggered"| DOCS
-
-  CM["🗓 Onboarding Appointment\nCase Manager with Client\nTarget: Day 1"]:::task
-  LIT --> CM
-
-  ATTY["⚖️ Initial Attorney Review\n-- No Client Contact --\nDetermination + Attorney Note filed in Litify\nAfter Onboarding Appt"]:::checkpoint
-  HOLD["🚩 Flag and Resolve Issues"]:::risk
-  CM --> ATTY
-  ATTY -->|"Issues Found"| HOLD --> ATTY
-
-  ACONF["📋 Paralegal Call with Client\nAfter Attorney Review\nTarget: Day 3"]:::checkpoint
-  ATTY -->|"Attorney Note Complete"| ACONF
-
-  IB["⚡ Injury Bridge Triggered\nGood to Go"]:::auto
-  DONE["✅ Onboarding Complete\nTarget: 8.2 days"]:::done
-  ACONF -->|"Good to Go"| IB --> DONE
-    </div>
-  </div>
-
   <!-- WC Diagram -->
-  <div id="wf-wc" style="padding:32px 24px;overflow-x:auto;display:none;">
+  <div id="wf-wc" style="padding:32px 24px;overflow-x:auto;">
     <div class="mermaid">
 flowchart TD
   classDef task fill:#f5f5f5,color:#1a1a2e,stroke:#bbb,stroke-width:1px
@@ -750,21 +671,7 @@ flowchart TD
     wfBtn.style.cssText = tab === 'wf'
       ? 'padding:12px 24px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;margin-bottom:-2px;cursor:pointer;'
       : 'padding:12px 24px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;';
-    if (tab === 'wf' && !document.querySelector('#view-wf .mermaid svg')) {
-      mermaid.run({nodes: document.querySelectorAll('#view-wf .mermaid')});
-    }
-  }
-
-  function showWfTab(tab) {
-    document.getElementById('wf-pi').style.display = tab === 'pi' ? '' : 'none';
-    document.getElementById('wf-wc').style.display = tab === 'wc' ? '' : 'none';
-    document.getElementById('wf-tab-pi').style.cssText = tab === 'pi'
-      ? 'padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;cursor:pointer;margin-bottom:-1px;'
-      : 'padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;';
-    document.getElementById('wf-tab-wc').style.cssText = tab === 'wc'
-      ? 'padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:700;color:#0176d3;border-bottom:2px solid #0176d3;cursor:pointer;margin-bottom:-1px;'
-      : 'padding:12px 20px;border:none;background:transparent;font-size:13px;font-weight:600;color:#706e6b;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;';
-    if (tab === 'wc' && !document.querySelector('#wf-wc .mermaid svg')) {
+    if (tab === 'wf' && !document.querySelector('#wf-wc .mermaid svg')) {
       mermaid.run({nodes: document.querySelectorAll('#wf-wc .mermaid')});
     }
   }
